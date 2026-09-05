@@ -96,7 +96,7 @@ trained entirely on CIC-IDS-2017 dataset and evaluated on unseen CSE-CIC-IDS2018
 \section{Dataset Collection and Loading}
 
 For the study of Cross-Dataset Generalization for Network Intrusion Detection Using Supervised and Unsupervised Machine Learning Models at an academic level, 
-we have sourced three datasets from public domain. The collected data are then loaded in chunks with memory optization (dowcasting some datatypes) to avoid memory crash.
+we have sourced three datasets from public domain. The collected data are then loaded in chunks with memory optimization (dowcasting some datatypes) to avoid memory crash.
 \begin{table}[htbp]
     \centering
     \caption{Dataset Details}
@@ -168,7 +168,7 @@ The 8 files combined has 79 features and 2830743 rows.
 
 \subsection{CSE-CIC-IDS2018}
 Among all the datasets used for our research, this one is the biggest in size (10 files of 6.89 GB) with more than 16 million rows and 
-84 feature downloaded through Kaggle. CSE- CIC-IDS2018 was a collaborative initiative between CIC and Communications Security Establishment 
+84 feature downloaded through Kaggle. CSE-CIC-IDS2018 was a collaborative initiative between CIC and Communications Security Establishment 
 (CSE) with the objective of creating standard benchmark datasets for intrusion detection systems to properly detect network anomalies. 
 The dataset was generated based on different attack types such as Botnets, Brute force, DoS and Heartbleed by accessing different user 
 profiles. The dataset is comprised of 80 features obtained through incoming network traffic and system logs with CICFlowMeter-V3 tool with 
@@ -185,6 +185,67 @@ new features from the network flow. The attacks in UNSW-NB15 are categorized by 
 protocols with the records from ground truth file. UNSW-NB15 prioritized matching Timestamp in-case of multiple records, removed flows that 
 could not be categorized and categorized the remaining traffic as benign after malicious flows were processed. 
 
+\begin{table}[htbp]
+    \centering
+    \caption{Attack Class Distribution before Data Pre-Processing}
+    \label{tab:class_distribution}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X
+                                  >{\centering\arraybackslash}r
+                                  >{\centering\arraybackslash}r
+                                  >{\centering\arraybackslash}r}
+        \toprule
+        \textbf{Label} &
+        \textbf{CICIDS2017} &
+        \textbf{CSE-CIC-IDS2018} &
+        \textbf{UNSW-NB15} \\
+        \midrule
+
+        benign & 2273097 & 13484708 & 3450658 \\
+        bot & 1966 & 286191 & 0 \\
+        ddos & 128027 & 0 & 0 \\
+        dos goldeneye & 10293 & 0 & 0 \\
+        dos hulk & 231073 & 0 & 0 \\
+        dos slowhttptest & 5499 & 0 & 0 \\
+        dos slowloris & 5796 & 0 & 0 \\
+        ftp-patator & 7938 & 0 & 0 \\
+        heartbleed & 11 & 0 & 0 \\
+        infiltration & 36 & 0 & 0 \\
+        portscan & 158930 & 0 & 0 \\
+        ssh-patator & 5897 & 0 & 0 \\
+        web attack -- brute force & 1507 & 0 & 0 \\
+        web attack -- sql injection & 21 & 0 & 0 \\
+        web attack -- xss & 652 & 0 & 0 \\
+        brute force -web & 0 & 611 & 0 \\
+        brute force -xss & 0 & 230 & 0 \\
+        ddos attack-hoic & 0 & 686012 & 0 \\
+        ddos attack-loic-udp & 0 & 1730 & 0 \\
+        ddos attacks-loic-http & 0 & 576191 & 0 \\
+        dos attacks-goldeneye & 0 & 41508 & 0 \\
+        dos attacks-hulk & 0 & 461912 & 0 \\
+        dos attacks-slowhttptest & 0 & 139890 & 0 \\
+        dos attacks-slowloris & 0 & 10990 & 0 \\
+        ftp-bruteforce & 0 & 193360 & 0 \\
+        infilteration & 0 & 161934 & 0 \\
+        label & 0 & 59 & 0 \\
+        sql injection & 0 & 87 & 0 \\
+        ssh-bruteforce & 0 & 187589 & 0 \\
+        analysis & 0 & 0 & 385 \\
+        backdoor & 0 & 0 & 452 \\
+        dos & 0 & 0 & 4467 \\
+        exploits & 0 & 0 & 30951 \\
+        fuzzers & 0 & 0 & 29613 \\
+        generic & 0 & 0 & 4632 \\
+        reconnaissance & 0 & 0 & 16735 \\
+        shellcode & 0 & 0 & 2102 \\
+        worms & 0 & 0 & 246 \\
+
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
 \section{Data Pre-Processing}
 The first step in data-processing is standardizing all the labels across the datasets. We mapped the labels of the datasets taking reference to 
 CSE-CIC-IDS2018. We handled the infinite values in these datasets by replacing them with NaN values. Removing duplicates earlier would significantly 
@@ -192,10 +253,83 @@ reduce the size of the datasets, seeing the skewness of the datasets, we replace
 And, only after replacing the NaN values with median values, we removed the duplicated values from the datasets. Finally, for the next step we took 
 all the common labels from the datasets. We also checked and deleted the bad rows from the datasests.
 
+\begin{table}[htbp]
+    \centering
+    \caption{Attack Class Distribution after Data Pre-Processing}
+    \label{tab:class_distribution_2}
+    \footnotesize
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X
+                                  >{\centering\arraybackslash}r
+                                  >{\centering\arraybackslash}r
+                                  >{\centering\arraybackslash}r}
+        \toprule
+        \textbf{Label} &
+        \textbf{CICIDS2017} &
+        \textbf{CSE-CIC-IDS2018} &
+        \textbf{UNSW-NB15} \\
+        \midrule
+
+        benign & 2073870 & 12196127 & 3389125 \\
+        bot & 1953 & 144535 & 0 \\
+        ddos & 128016 & 0 & 0 \\
+        dos goldeneye & 10286 & 0 & 0 \\
+        dos hulk & 172849 & 0 & 0 \\
+        dos slowhttptest & 5228 & 0 & 0 \\
+        dos slowloris & 5385 & 0 & 0 \\
+        ftp-patator & 5933 & 0 & 0 \\
+        heartbleed & 11 & 0 & 0 \\
+        infiltration & 36 & 0 & 0 \\
+        portscan & 90819 & 0 & 0 \\
+        ssh-patator & 3219 & 0 & 0 \\
+        web attack -- brute force & 1470 & 0 & 0 \\
+        web attack -- sql injection & 21 & 0 & 0 \\
+        web attack -- xss & 652 & 0 & 0 \\
+        brute force -web & 0 & 553 & 0 \\
+        brute force -xss & 0 & 228 & 0 \\
+        ddos attack-hoic & 0 & 198861 & 0 \\
+        ddos attack-loic-udp & 0 & 1730 & 0 \\
+        ddos attacks-loic-http & 0 & 576191 & 0 \\
+        dos attacks-goldeneye & 0 & 41406 & 0 \\
+        dos attacks-hulk & 0 & 145199 & 0 \\
+        dos attacks-slowhttptest & 0 & 55 & 0 \\
+        dos attacks-slowloris & 0 & 9908 & 0 \\
+        ftp-bruteforce & 0 & 54 & 0 \\
+        infilteration & 0 & 140612 & 0 \\
+        label & 0 & 1 & 0 \\
+        sql injection & 0 & 84 & 0 \\
+        ssh-bruteforce & 0 & 94048 & 0 \\
+        analysis & 0 & 0 & 385 \\
+        backdoor & 0 & 0 & 452 \\
+        dos & 0 & 0 & 4459 \\
+        exploits & 0 & 0 & 30951 \\
+        fuzzers & 0 & 0 & 29598 \\
+        generic & 0 & 0 & 4605 \\
+        reconnaissance & 0 & 0 & 16710 \\
+        shellcode & 0 & 0 & 2102 \\
+        worms & 0 & 0 & 246 \\
+
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=15cm,
+        keepaspectratio
+    ]{attachments/attack distribution.png}
+    \caption{Attack Distribution across Datasets after Mapping 'Attack'}
+    \label{fig:attack-distribution}
+\end{figure}
+
 \section{Feature Engineering}
 In order to maximize the intrusion detection, we mapped the attacks of similar nature. Since, the tree based models are robust in handling the class-imbalance, 
 we have simply implemented class-weighting and avoided using SMOTE for Random Forest and XGBoost. Meanwhile, for our DNN architecture, we used RobustScaler to 
-fit-transform the train datasets only.
+fit-transform the train datasets only. To check the best hyperparameters for the models, we have utilized Optuna study \cite{Akiba2019} to get the best configuration 
+of the models that would generate maximum F1 score for the 'Attack' class . 
 
 \section{Model Training}
 \subsection{Random Forest}
@@ -204,23 +338,22 @@ predictions of individual trees. During the training phase, only a random subset
 a random forest use a bootstrap-sampled version of the training data to introduce randomness in both the sampling process and feature selection, 
 thereby minimizing correlation among the trees and reducing the variance of the ensemble without increasing bias.
 
-\begin{wrapfigure}{l}{0.65\textwidth}
-    \centering
-    \includegraphics[
-        width=0.60\textwidth,
-        height=7cm,
-        keepaspectratio
-    ]{attachments/random forest.png}
-    \caption{Random Forest Architecture}
-    \label{fig:random-forest}
-\end{wrapfigure}
-
 The significance of tree-based models lies in their ability to classify the feature space using threshold splits without being affected by 
 monotonic transformations of the input features. In this study, we trained Random Forest on the full CIC-IDS-2017 dataset without scaling, 
 despite the substantial class imbalance. As Random Forest is resistant to overfitting on high-dimensional flow-related data and shows robustness 
 to noisy features, the workflow avoids Synthetic Minority Over-Sampling Technique (SMOTE) and instead uses class weight = "balanced" to 
 handle class imbalance. \par
-\clearpage
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=15cm,
+        keepaspectratio
+    ]{attachments/random forest.png}
+    \caption{Random Forest Architecture}
+    \label{fig:random-forest}
+\end{figure}
 
 \begin{table}[!ht]
     \centering
@@ -295,22 +428,21 @@ where each tree is trained to rectify the mistakes of previous trees. It does no
 allows trees to grow in additive way to optimize the differential loss function using gradient descent. It employs L1 and L2 regularization to control overfitting 
 and complexity. XGBoost inhibits computational effectiveness and robustness in solving structured data and is capable to construct parallel tree to deal with the 
 missing data.
-\begin{wrapfigure}{l}{0.60\textwidth}
-    \centering
-    \includegraphics[
-        width=0.85\textwidth,
-        height=7cm,
-        keepaspectratio
-    ]{attachments/xgboost.png}
-    \caption{XGBoost Architecture}
-    \label{fig:xgboost}
-\end{wrapfigure}
 
 So, with its exceptional ensemble technique to compare methods of ensemble trees that differ in aggregation approach (sequential vs parallel), 
 we have selected XGBoost along with Random Forest as our benchmark supervised learning models. Like random forest, we have implemented 
 class-weighing to mitigate the class imbalance between the benign and malicious cases in the training set, i.e. CIC-IDS-2017. 
-\par
-\clearpage
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=10cm,
+        keepaspectratio
+    ]{attachments/xgboost.png}
+    \caption{XGBoost Architecture}
+    \label{fig:xgboost}
+\end{figure}
 
 \begin{table}[!ht]
     \centering
@@ -388,27 +520,25 @@ DNN is dependent on the size/amount of data, thus shows better performance as th
 hidden layers for classification. Each hidden layer utilizes ReLU activation to bring in non-linearity after each hidden layer 
 to prevent the vanishing gradient problem of deeper models.
 
-\begin{wrapfigure}{l}{0.70\textwidth}
-    \centering
-    \includegraphics[
-        width=0.70\textwidth,
-        height=9cm,
-        keepaspectratio
-    ]{attachments/dnn.png}
-    \caption{DNN Architecture for this study}
-    \label{fig:dnn}
-\end{wrapfigure}
-
-To avoid memory crash given the size of the dataset, we tested on 20\% of the CIC-IDS-2017 with tuning size of 300000. Furthermore, we have 
-configured Optuna study which optimizes the hyperprameters of the model \cite{Akiba2019} to get maximum F1 score for the "Attack' class with n\_trials=30 
-(30 only considering the computational cost and to prevent memory crash). We have implemented 4 hidden layers with 512, 256, 128 and 64 neurons for binary 
+To avoid memory crash given the size of the dataset, we tested on 20\% of the CIC-IDS-2017 with tuning size of 300000.Considering the computational cost 
+and to prevent memory crash, we have assigned n\_trials to 30 only. We have implemented 4 hidden layers with 512, 256, 128 and 64 neurons for binary 
 classification “benign” and “attack”  in this study. We have implemented RobustScaler for scaling the datasets to mitigate the effect of strong outliers 
 (flow duration, packet inter-arrival times). Similar to Random Forest and XGBoost which utilizes class-weight, weighted loss in DNN handles class imbalance. 
 In consideration to the huge test dataset size, prediction and evaluation of the model has been performed in batches of max 4096. The best\_dnn\_params 
 identifies the best configuration of the model specifically the number of layers, units per layer, dropout rate and the learning rate to construct the best 
 DNN architecture. Thus, the evaluation using DNN architecture works in two phases, first finding the best configuration by training and testing the model 
 on CIC-IDS-2017 and secondly using the best hyperparameters to evaluate the performance of the model on the test datasets CSE-CIC-IDS2018 and UNSW-NB15. 
-\clearpage
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=10cm,
+        keepaspectratio
+    ]{attachments/dnn.png}
+    \caption{DNN Architecture}
+    \label{fig:dnn}
+\end{figure}
 
 \begin{table}[!ht]
     \centering
@@ -455,3 +585,103 @@ on CIC-IDS-2017 and secondly using the best hyperparameters to evaluate the perf
     }
 \end{table}
 \FloatBarrier
+
+\section{Model Evaluation}
+Since, the main objective of the study is to find out which model shows robust performance in cross-dataset generalization for network intrusion detection,
+we have prioritized F1-Score, MCC and ROC-AUC Curve as the evaluation metrics. Accuracy alone cannot define whether the model performed better in detecting 
+'Attack' from the  network traffic. 
+
+\begin{itemize}
+    \item {Precision:} It gives the measure of the proportion that are predicted as Positive. It is the ratio of True Positives (TP) to the summation of 
+    True Positives and False Positives (FP).  
+\end{itemize}
+
+\[
+\text{Precision} = \frac{TP}{TP+FP}
+\]
+
+\begin{itemize}
+    \item Recall: Unlike Precision, it gives the measure of positives that are correctly predicted as Positive. It demonstrates the model's proficiency in detecting
+    True Positives while limiting False Negatives (FN). It is the ratio of True Positives (TP) to the summation of True Positives and False Negatives (FN).
+\end{itemize}
+
+\[
+\text{Recall} = \frac{TP}{TP+FN}
+\]
+
+\begin{itemize}
+    \item {F1\_Score:} It is the harmonic mean of Precision and Recall giving a balanced measure that shows the overall performance of the model minimizing both 
+    False Positives and False Negatives.
+\end{itemize}
+
+\[
+\text{F1\_Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}
+{\text{Precision} + \text{Recall}}
+\]
+
+\begin{itemize}
+    \item {MCC:} Matthews Correlation Coefficient or simply MCC is a metric used to evaluate the classification performance of the model by determining the correlation between
+    actual and predicted classes, preferrable metric for evaluating model performance on imbalanced datasets.
+\end{itemize}
+
+\[
+\text{MCC} = \frac{TP \times TN - FP \times FN}
+{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}
+\]
+
+\begin{itemize}
+    \item {ROC-AUC:} Receiver Operating Characteristic Area Under Curve (ROC-AUC) gives the measure specifying how well the model performed in distinguishing the positive 
+    and negative classes into correct labels with respect to various classification thresholds. The value ranges from 0 to 1; higher the value better the classification. 
+\end{itemize}
+
+\[
+\text{ROC-AUC} = \int_{0}^{1} \mathrm{TPR}(\mathrm{FPR}) \, d(\mathrm{FPR})
+\]
+
+\begin{table}[htbp]
+    \centering
+    \caption{Performance Comparison of Classification Models}
+    \label{tab:model_performance}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabular}{llccccccc}
+        \toprule
+        \textbf{Model} & \textbf{Test Dataset} &
+        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
+        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
+        \midrule
+
+        \multirow[c]{2}{*}{Random Forest}
+        & CSE-CIC-IDS2018 & 0.9188 & 0.9239 & 0.2043 & 0.3346 & 0.6457 & 0.8384 & 0.4130 \\
+        & UNSW-NB15       & 0.9743 & 0.2830 & 0.0002 & 0.0003 & 0.4936 & 0.7613 & 0.0063 \\
+
+        \midrule
+
+        \multirow[c]{2}{*}{XGBoost}
+        & CSE-CIC-IDS2018 & 0.9309 & 0.9799 & 0.3150 & 0.4768 & 0.7199 & 0.9153 & 0.5346 \\
+        & UNSW-NB15       & 0.9752 & 0.6533 & 0.0739 & 0.1328 & 0.5601 & 0.7829 & 0.2142 \\
+
+        \midrule
+
+        \multirow[c]{2}{*}{Deep Neural Network}
+        & CSE-CIC-IDS2018 & 0.8932 & 0.1393 & 0.0133 & 0.0244 & 0.4839 & 0.5346 & 0.0129 \\
+        & UNSW-NB15       & 0.8820 & 0.0492 & 0.1958 & 0.0787 & 0.5078 & 0.8107 & 0.0501 \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+All the models generated accuracy greater than 88\%. Random Forest and XGBoost yielded Precision score above 90\% for the 
+CSE-CIC-IDS2018 dataset. XGBoost turned out to be the best performing model while evaluated on the same dataset with Recall Score of 0.31, F1-Score of 0.47, 
+MCC of 0.53 compared to Recall Score of 0.20, F1-Score of 0.33 and MCC of 0.41 generated by Random Forest. These scores achieved are better than the scores 
+achieved from previous studies \ref{tab:evaluation-results}. The performance of these models dropped significantly when evaluated on UNSW-NB15 dataset. 
+The only signicant metric being MCC which is 0.21 for XGBoost. The primary reason for the performance drop could be due to variation in the types of 'Attack' 
+in the dataset \ref{tab:class_distribution}. The 'Attack' labels that are present in the train dataset CIC-IDS-2017 are not present in the test dataset UNSW-NB15 
+and vice-versa. The study of \cite{Chandra2025} have highlighted the models' robustness in cross-dataset generalization for network intrusion detection while testing 
+on this particular dataset. Also, the methodology used are in contrast to what we have adopted. 
+
+The biggest disappointment above all are the results from DNN architecture. The model yielded accuracy above 88\% for both datasets, however the results for our 
+preferred metrics are negligible/avoidable. As, DNN relies on the depth of the layers to learn complex features and their patterns, huge class-imbalance and the depth
+of layers used could have been the reason for the poor performance. We have only used 4 hidden layers to detect attacks from the network traffic. With more 
+hidden layers, the performance might improve.
+
