@@ -1,24 +1,76 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[12pt]{report}
 \usepackage[a4paper, margin=2cm]{geometry}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{tikz}
-\usepackage{eso-pic}
+\usepackage{array}
+\usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{url}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{
+    positioning,
+	decorations.pathreplacing,
+    arrows.meta,
+    calc
+}
+\definecolor{mygreen}{RGB}{56,142,60}
+\definecolor{mynavy}{RGB}{21,67,96}
+
+\usepackage{eso-pic}
 \usepackage{longtable}
 \usepackage{parskip}
 \usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{xurl}
+\usepackage{chngcntr}
+\usepackage{titlesec}
+\usepackage{placeins}
+\usepackage{wrapfig}
+
+% Reduce space before chapter title
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+
+\titlespacing*{\chapter}{0pt}{-40pt}{20pt}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\dissertationtitle}{My Awsome Dissertation Title to Make this World Great Again}
-\newcommand{\student}{Alice Smith and Bob Smith}
-\newcommand{\degree}{Bachelor of Data Science, AI, and Digital Business}
-\newcommand{\supervisor}{John Doe}
+\newcommand{\dissertationtitle}{Cross-Dataset Generalization for Network Intrusion Detection Using Supervised and Unsupervised Machine Learning Models}
+\newcommand{\student}{Kuek Philip Atem Marol and Sumit Kumar Sangroula }
+\newcommand{\degree}{MSc Data Science, AI, and Digital Business}
+\newcommand{\supervisor}{Professor Amirhossein Jamalian}
 \newcommand{\submissiontime}{Winter 2024}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{table}{0}
+\counterwithout{table}{chapter}
+\counterwithout{figure}{chapter}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titleformat{\section}
+  {\normalfont\fontsize{12}{13}\selectfont\bfseries}
+  {\thesection}{1em}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{titlesec}
+
+\titleformat{\subsection}
+  {\normalfont\normalsize}
+  {\thesubsection}
+  {1em}
+  {}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \renewcommand\maketitle{
 	{
 		\center
@@ -58,7 +110,7 @@
 \maketitle
 \include{chapters/abstract}
 \include{chapters/declaration}
-\include{chapters/acknowledgments}
+\include{chapters/acknowledgements}
 \include{chapters/dedication}
 \tableofcontents 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,16 +121,17 @@
 \pagenumbering{arabic}
 \include{chapters/introduction}
 \include{chapters/foundations}
-\include{chapters/related_work}
-\include{chapters/approach}
+\include{chapters/literature review}
+\include{chapters/methodology}
 \include{chapters/evaluation}
 \include{chapters/conclusion}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{apalike}
 \renewcommand{\bibname}{References}
+\nocite{*}
 \bibliography{attachments/bibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -1,0 +1,103 @@
+\chapter{Literature Review}
+
+Some of the research carried out on Cross-Dataset Generalization for NIDS have shown improvements with advanced dataset handling and feature engineering 
+on supervised machine learning and deep learning models. These models have achieved greater accuracy on benchmark datasets and improved to some extent 
+in cross-dataset generalization (between CICIDS2017 and CSE-CIC-IDS2018, UNSW-NB15). However, accuracy alone cannot be considered to determine how robust 
+the model is given the high number of genuine network flows and a smaller number of attacks. Cross-Dataset Generalization for NIDS face reliability issue 
+when models are deployed for intrusion detection considering the increasing number of attacks in heterogeneous environments with huge domain shifts when 
+the models with greater accuracy on benchmark dataset fail to detect intrusion in an unknown dataset yielding more False Positives.  Generalization becomes 
+complex as the features from the train dataset that are predictive of malicious activities within the dataset may fail to predict malicious behavior from a 
+different dataset thus dropping the performance of the models \cite{Elangovan2026}. Uniformity in dataset size for training and testing, usage of SMOTE 
+are crucial to make comparisons on how the models performed in intrusion detection in the future. 
+
+The studies have shown the effectiveness of ensemble learning and feature selection in finding nonlinear dependencies among different labels in the 
+network flow by keeping low dimensionality. They have also cautioned to interpret the evaluation wisely despite Random Forest, XGBoost, 1D-CNN achieving 
+accuracy \>85\% on benchmark datasets \cite{Elangovan2026}, these models faced challenges modelling on complex multi-stage attacks \cite{Chandra2025}. 
+
+\section{Cross-Dataset Generalization using Supervised Learning Models}
+With the ever-increasing study and experiments on network intrusion detection, a recent study by \cite{Cantone2024}, although not validated and reviewed
+ by experts performed cross-dataset generalization by employing machine learning algorithms on CIC-IDS-2017, CSE-CIC-IDS2018, LycoS-IDS2017, 
+ and LycoS-UnicasIDS2018 datasets and eventually applied corrections to CSE-CIC-IDS2018 based on the results of LycoS-IDS2017. The study revealed that the
+  performance dropped to detect malicious behaviors for generalization in comparison to near perfect results in intrusion detection when trained and tested 
+  on same datasets. The supervised learning models learned bigger scale attack types such as DOS and DDoS and generalized well. Meanwhile, due to class imbalance
+   of the attack types, the models failed to detect web attacks and infiltration attacks. The researchers have pointed out that the variability of the datasets, 
+   irregular distribution of attacks among datasets and redundancy in the samples played a causal role in performance drop of the models failing to learn the 
+   attack patterns. Problems associated with feature calculation, protocol identification, feature multiplication and labeling in CIC-IDS-2017 degraded the 
+   quality of the data and hence corrected with LycoS-IDS2017. The findings suggested that the learning of the transferrable attacks might not be the 
+   real reason, but the features associated with the dataset that hinder the performance of the models. As per the study, the models should be implemented 
+   with prior knowledge of different traffics that were never encountered before. 
+
+The table below showcases the performance of the models while trained on CIC-IDS-2017 and tested on CSE-CIC-IDS2018 as per \cite{Cantone2024} for 
+cross-dataset generalization for network intrusion detection.
+
+\begin{table}[ht]
+    \centering
+    \caption{ Model Evaluation Results from \cite{Cantone2024}.}
+    \label{tab:evaluation-results}
+
+    \begin{tabular}{ll l c c c}
+        \toprule
+        {\small Train Dataset} & {\small Test Dataset} & {\small Models} &
+        \multicolumn{3}{c}{\small Evaluation Metrics} \\
+        \cmidrule(lr){4-6}
+        & & & \textbf{{\small MCC}} & \textbf{{\small F1}} & \textbf{{\small AUROC}} \\
+        \midrule
+
+        \multirow{3}{*}{\textbf{\small CIC-IDS-2017}}
+        & \multirow{3}{*}{\textbf{\small CSE-CIC-IDS2018}}
+        & {\small Random Forest} & {\small 25.96\%} & {\small 25.76\%} & {\small 66.93\%} \\
+
+        & & {\small XGBoost} & {\small 35.68\%} & {\small 26.43\%} & {\small 80.44\%} \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Another study by \cite{Elangovan2026} revealed the performance drop for NIDS while evaluated on recent datasets. Random Forest when trained 
+on CIC-IDS-2017 and tested on CSE-CIC-IDS2018 saw a Macro F1 drop of 0.059 from baseline 0.941 to 0.882. Similarly, 1D-CNN saw a decline of 0.070 
+from 0.942 to 0.872. It seems obvious that the performance degrades while generalizing to a completely different dataset when both temporal and 
+network domain distance increases implying that performance on benchmark dataset does not signify robustness for future attack detection. The 
+study highlights the importance of carrying out temporal forecasting evaluation while implementing models for intrusion detection.  
+
+
+\section{Hybrid Deep Learning approach for Cross-Dataset Generalization}
+In addition to the application of supervised learning models, usage of deep learning methods has been observed for the detection of intrusion due to 
+its capability of learning hierarchical representations from the complex traffic data. A research paper “Real-Time Network Intrusion Detection System 
+Using Deep Learning: Identifying Cyber Attacks Through Anomaly Pattern Recognition” \cite{Chandra2025} has properly analyzed the performance of LSTM, 
+CNN and Autoencoders in detecting anomalies. The paper has discussed the hybrid approach and proposed the Real-Time NIDS by employing attention mechanism, LSTM, 
+CNN and Autoencoders. In this hybrid architecture setup, LSTMs model network flow sequences, CNNs identify spatial patterns from the traffic features, Autoencoder 
+calculates the anomaly score from the reconstruction error and lastly the important characteristics/temporal phases within the traffic data sequence are identified 
+by attention mechanism.
+
+Like the performance of the supervised learning models on benchmark datasets, application of deep learning for intrusion detection recorded exemplary F1 scores 
+of 97.8\%, 97.3\% and 98.0\% for CIC-IDS-2017, CSE-CIC-IDS2018 and UNSW-NB15 dataset respectively. The study has conducted cross-dataset performance between CIC-IDS-2017 
+and UNSW-NB15 only. Using this hybrid approach, they have yielded a F1-score of 93.5\% and FPR of 2.8\% only which has surpassed the performance of the base supervised 
+learning models. The major difference in the results between the application of supervised learning models from previous research and the hybrid DNN approach lie in 
+data split for training and testing. The study of cross-dataset generalization by \cite{Cantone2024} used whole dataset for training and testing. Meanwhile, 
+the research paper by \cite{Chandra2025} used SMOTE (to oversample rare attack classes), 70\% of each dataset for training, 15\% for hyperparameter tuning and remaining 15\% 
+for testing. While this approach yielded superior performance, as per Elangovan et al. (2026), this complex deep learning architecture does not guarantee a reliable 
+generalization as the performance for intrusion detection degrade when there are large distribution shifts and may not be resilient enough to identify unfamiliar traffic 
+thus contradicting the notion that complex model would yield better performance when the models are trained on older traffics and tested on newer version of web traffics 
+with evolving network technologies, communication behaviors and varied attack patterns. Despite the robustness of the models, \cite{Elangovan2026} has stated the necessity 
+of preserving the network features when the network traffic features are classified based on their semantics during dataset shift. Protocol specific indicators showing 
+higher degree of uncertainty whereas communication features like flow rate and temporal activity features generalizing well on different datasets. The negative communication 
+behavior aspects that arise in different situations can be handled by certain behavioral characteristics. The evidence for this is discussed in the representation-drift 
+study by \cite{Elangovan2026}. Higher the difference between training and testing datasets with respect to time and field, higher the construction error. Models trained 
+on CIC-IDS-2017 showed 0.0211 mean reconstruction error while analyzed on CSE-CIC-IDS2018, increased to 0.0342 for CICIoT2023 and reached the maximum of 0.0384 when 
+applied to CIC-DIAD2024 showing the latent representations obtained from the original dataset diverged from the target-domain traffic.
+
+The findings from the research for cross-dataset generalization by \cite{Chandra2025,Elangovan2026,Cantone2024} are in contrast considering the models used. 
+These papers show how the evaluation design, datasets, pre-processing, feature engineering and model design affect generalization. Thus, cross-dataset generalization for 
+NIDS remains continuous deep research of the specific source and target datasets, features compatibility, attack overlap and experimental approach.
+
+\section{Research Gap}
+All these previous studies of Cross-Dataset generalization for NIDS using Supervised Machine Learning and Deep Learning Models demonstrate gradual 
+progress for NIDS, although the evaluations were made using different metrics on different test datasets. Trees based models provide faster classification 
+benchmarks while deep learning methods contribute to representation learning, temporal modelling, and anomaly detection. Hybrid deep learning method 
+could significantly assist real-time cross-dataset generalization for NIDS. However, achieving accuracy greater than 80\% or even 90\% with high 
+precision scores on a single benchmark dataset or a cross-dataset (as the results suggested by the studies above) does not confirm its robustness 
+for deployment. They fail to exhibit excellent generalization capabilities. There is no consistent performance across varied test datasets thus failing
+ to deliver similar results. The inconsistency in performance across datasets proves the significance of good labeling, dataset preparation and feature 
+ engineering. There remains a consistency gap in the advancement of NIDS evaluation approaches that would consider the efficiency of classification and 
+ generalization to different datasets, robustness over time, feature stability, imbalance class, false-positive estimations, and computational efficiency. 
+ Future research should conduct collaborative experiments for real deployment simulations with independent datasets and heterogeneous network conditions.
