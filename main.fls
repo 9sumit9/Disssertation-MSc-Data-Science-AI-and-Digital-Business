@@ -367,7 +367,13 @@ OUTPUT chapters\declaration.aux
 INPUT .\chapters\declaration.tex
 INPUT .\chapters\declaration.tex
 INPUT chapters\declaration.tex
-OUTPUT chapters\acknowledgements.aux
+INPUT .\chapters\acknowledgments.tex
+INPUT .\chapters\acknowledgments.tex
+OUTPUT chapters\acknowledgments.aux
+INPUT .\chapters\acknowledgments.tex
+INPUT .\chapters\acknowledgments.tex
+INPUT chapters\acknowledgments.tex
+INPUT C:\Users\Acer\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT .\chapters\dedication.tex
 INPUT .\chapters\dedication.tex
 OUTPUT chapters\dedication.aux
@@ -381,7 +387,6 @@ OUTPUT chapters\introduction.aux
 INPUT .\chapters\introduction.tex
 INPUT .\chapters\introduction.tex
 INPUT chapters\introduction.tex
-INPUT C:\Users\Acer\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
 INPUT C:\Users\Acer\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\tcrm1200.tfm
 INPUT .\chapters\foundations.tex
 INPUT .\chapters\foundations.tex
@@ -469,9 +474,9 @@ INPUT chapters\abstract.aux
 INPUT .\chapters\declaration.aux
 INPUT .\chapters\declaration.aux
 INPUT chapters\declaration.aux
-INPUT .\chapters\acknowledgements.aux
-INPUT .\chapters\acknowledgements.aux
-INPUT chapters\acknowledgements.aux
+INPUT .\chapters\acknowledgments.aux
+INPUT .\chapters\acknowledgments.aux
+INPUT chapters\acknowledgments.aux
 INPUT .\chapters\dedication.aux
 INPUT .\chapters\dedication.aux
 INPUT chapters\dedication.aux

@@ -621,7 +621,8 @@ we have prioritized F1-Score, MCC and ROC-AUC Curve as the evaluation metrics. A
 
 \begin{itemize}
     \item {MCC:} Matthews Correlation Coefficient or simply MCC is a metric used to evaluate the classification performance of the model by determining the correlation between
-    actual and predicted classes, preferrable metric for evaluating model performance on imbalanced datasets.
+    actual and predicted classes, preferrable metric for evaluating model performance on imbalanced datasets. Its value ranges from -1 to 1; 1 indicates strong prediction, 0 
+    indicates random prediction and -1 represents weak prediction between actual and predicted classes.
 \end{itemize}
 
 \[
@@ -631,7 +632,8 @@ we have prioritized F1-Score, MCC and ROC-AUC Curve as the evaluation metrics. A
 
 \begin{itemize}
     \item {ROC-AUC:} Receiver Operating Characteristic Area Under Curve (ROC-AUC) gives the measure specifying how well the model performed in distinguishing the positive 
-    and negative classes into correct labels with respect to various classification thresholds. The value ranges from 0 to 1; higher the value better the classification. 
+    and negative classes into correct labels with respect to various classification thresholds. The value ranges from 0 to 1; higher the value better the classification of 
+    the classes. 
 \end{itemize}
 
 \[
@@ -680,7 +682,7 @@ in the dataset \ref{tab:class_distribution}. The 'Attack' labels that are presen
 and vice-versa. The study of \cite{Chandra2025} have highlighted the models' robustness in cross-dataset generalization for network intrusion detection while testing 
 on this particular dataset. Also, the methodology used are in contrast to what we have adopted. 
 
-The biggest disappointment above all are the results from DNN architecture. The model yielded accuracy above 88\% for both datasets, however the results for our 
+The biggest disappointment above all is the result from DNN architecture. The model yielded accuracy above 88\% for both datasets, however the results for our 
 preferred metrics are negligible/avoidable. As, DNN relies on the depth of the layers to learn complex features and their patterns, huge class-imbalance and the depth
 of layers used could have been the reason for the poor performance. We have only used 4 hidden layers to detect attacks from the network traffic. With more 
 hidden layers, the performance might improve.

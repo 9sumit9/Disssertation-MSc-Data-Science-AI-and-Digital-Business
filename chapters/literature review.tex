@@ -93,7 +93,7 @@ NIDS remains continuous deep research of the specific source and target datasets
 
 \section{Research Gap}
 All these previous studies of Cross-Dataset generalization for NIDS using Supervised Machine Learning and Deep Learning Models demonstrate gradual 
-progress for NIDS, although the evaluations were made using different metrics on different test datasets. Trees based models provide faster classification 
+progress for NIDS, although the evaluations were made using different metrics on different test datasets. Trees based models seem to provide faster classification 
 benchmarks while deep learning methods contribute to representation learning, temporal modelling, and anomaly detection. Hybrid deep learning method 
 could significantly assist real-time cross-dataset generalization for NIDS. However, achieving accuracy greater than 80\% or even 90\% with high 
 precision scores on a single benchmark dataset or a cross-dataset (as the results suggested by the studies above) does not confirm its robustness 
@@ -102,3 +102,46 @@ for deployment. They fail to exhibit excellent generalization capabilities. Ther
  engineering. There remains a consistency gap in the advancement of NIDS evaluation approaches that would consider the efficiency of classification and 
  generalization to different datasets, robustness over time, feature stability, imbalance class, false-positive estimations, and computational efficiency. 
  Future research should conduct collaborative experiments for real deployment simulations with independent datasets and heterogeneous network conditions.
+
+ \section{Research Questions}
+To serve as a guide for this research overcoming the research gaps discussed earlier, we have developed the 'Qualitative' research questions that specifically
+contribute towards the efficiency of both supervised and unsupervised machine learning models for network intrusion detection on different
+datasets.
+
+The following are the qualitative research questions developed for the research:
+
+\begin{enumerate}
+    \item How well do supervised machine learning models trained on CIC-IDS-2017 dataset generalize to unseen intrusion detection datasets?
+    \item How does the cross-dataset generalization performance of unsupervised models compare with supervised models?
+    \item Which machine learning model demonstrate greater robustness against dataset distribution shift in real-world network intrusion detection scenarios?
+\end{enumerate}
+
+ \section{Research Hypotheses}
+ Cross-dataset generalization for network intrusion detcetion is crucial in determining the robustness of the models in identifying intusion from a varied 
+ unknown network traffic. As previous studies have stated that although the models demonstrated exemplary performance while trained and tested on same models;
+ the models saw significant drop in performance and struggled to generalize efficiently with respect to unseen dataset environment comprising of varied traffic
+ characteristics and attack types. Based on these facts, we have formulated few hypotheses to investigate the cross-dataset generalization capabilities of the 
+ supervised and unsupervised learning models for developing a robust network intrusion detection system.
+
+ \begin{itemize}
+    \item \textbf{H1:} While trained on a single dataset and tested on other unseen datasets, cross-dataset generalization may not be significant despite higher accuracy achieved by the models.
+    \item \textbf{H2:} Despite the models generating higher Precision score, there will be a reduced or unsignificant Recall score during generalization. 
+    \item \textbf{H3:} Supervised machine learning models will yield significantly better results than Unsupervised machine learning models.
+    \item \textbf{H4:} Tuning hyperparameters alone will not be enough for DNN to be robust in identifying intrusions. Number of trials should be increased too to learn the patterns. 
+    \item \textbf{H5:} The presence of completely different attack types in UNSW-NB15 dataset, models trained on CIC-IDS-2017 and tested on UNSW-NB15 will see performance decline
+    compared to models tested on CSE-CIC-IDS2018.
+ \end{itemize}
+
+
+ \section{Research Objectives}
+The ultimate goal of this research is to examine the performances of supervised and unsupervised machine learning models, evaluate their capabilities in 
+cross-dataset generalization for network intrusion detection. The research follows an experiment by training the models on CIC-IDS-2017 and evaluate their 
+performance in CSE-CIC-IDS2018 and UNSW-NB15 datasets to identify different types of network attacks. We have set the following objectives to achieve our goal.
+
+\begin{enumerate}
+    \item Process and standardize the CIC-IDS-2017, CSE-CIC-IDS2018 and UNSW-NB15 datasets.
+    \item Train supervised and unsupervised machine learning models.
+    \item Evaluate the model performance on CSE-CIC-IDS2018 and UNSW-NB15 test datasets.
+    \item Make comparison of the evaluation metrics: F1\_Score, MCC, ROC-AUC, Precision, and Recall.
+    \item Identify and select the best model that is more robust to dataset shift and generalizes better for intrusion detection in real-world cybersecurity environments.
+\end{enumerate}
