@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.3)  7 SEP 2026 19:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.9.3)  13 SEP 2026 23:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -600,12 +600,7 @@ Package pdftex.def Info: attachments/logo.png  used on input line 110.
 ]
 \openout2 = `chapters/dedication.aux'.
 
- (chapters/dedication.tex
-Underfull \hbox (badness 10000) in paragraph at lines 3--6
-
- []
-
-) [5
+ (chapters/dedication.tex) [5
 
 
 
@@ -745,36 +740,35 @@ Chapter 4.
 LaTeX Warning: Citation `Sharafaldin2018' on page 8 undefined on input line 165.
 
 [8] [9]
-<attachments/attack distribution.png, id=127, 907.59074pt x 440.847pt>
-File: attachments/attack distribution.png Graphic file (type png)
-<use attachments/attack distribution.png>
-Package pdftex.def Info: attachments/attack distribution.png  used on input line 323.
-(pdftex.def)             Requested size: 483.70746pt x 234.95279pt.
 
-
-LaTeX Warning: Citation `Akiba2019' on page 10 undefined on input line 331.
+LaTeX Warning: Citation `Akiba2019' on page 10 undefined on input line 321.
 
 [10]
-<attachments/random forest.png, id=134, 712.6625pt x 352.31625pt>
+<attachments/attack distribution.png, id=133, 907.59074pt x 440.847pt>
+File: attachments/attack distribution.png Graphic file (type png)
+<use attachments/attack distribution.png>
+Package pdftex.def Info: attachments/attack distribution.png  used on input line 330.
+(pdftex.def)             Requested size: 483.70746pt x 234.95279pt.
+ [11 <./attachments/attack distribution.png>]
+<attachments/random forest.png, id=143, 712.6625pt x 352.31625pt>
 File: attachments/random forest.png Graphic file (type png)
 <use attachments/random forest.png>
-Package pdftex.def Info: attachments/random forest.png  used on input line 353.
+Package pdftex.def Info: attachments/random forest.png  used on input line 376.
 (pdftex.def)             Requested size: 483.69064pt x 239.1203pt.
- [11 <./attachments/attack distribution.png>]
-<attachments/xgboost.png, id=143, 566.115pt x 443.6575pt>
+<attachments/xgboost.png, id=144, 566.115pt x 443.6575pt>
 File: attachments/xgboost.png Graphic file (type png)
 <use attachments/xgboost.png>
-Package pdftex.def Info: attachments/xgboost.png  used on input line 442.
+Package pdftex.def Info: attachments/xgboost.png  used on input line 465.
 (pdftex.def)             Requested size: 363.05525pt x 284.522pt.
  [12 <./attachments/random forest.png>] [13 <./attachments/xgboost.png>]
-<attachments/dnn.png, id=161, 730.52925pt x 229.45724pt>
+<attachments/dnn.png, id=162, 404.712pt x 130.68825pt>
 File: attachments/dnn.png Graphic file (type png)
 <use attachments/dnn.png>
-Package pdftex.def Info: attachments/dnn.png  used on input line 538.
-(pdftex.def)             Requested size: 483.71136pt x 151.9324pt.
+Package pdftex.def Info: attachments/dnn.png  used on input line 561.
+(pdftex.def)             Requested size: 483.71907pt x 156.20093pt.
 
-chapters/methodology.tex:600: Undefined control sequence.
-l.600 \text
+chapters/methodology.tex:579: Undefined control sequence.
+l.579 \text
            {Precision} = \frac{TP}{TP+FP}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -782,8 +776,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:609: Undefined control sequence.
-l.609 \text
+chapters/methodology.tex:588: Undefined control sequence.
+l.588 \text
            {Recall} = \frac{TP}{TP+FN}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -791,9 +785,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[14 <./attachments/dnn.png>]
-chapters/methodology.tex:618: Undefined control sequence.
-l.618 \text
+chapters/methodology.tex:597: Undefined control sequence.
+l.597 \text
            {F1\_Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -801,10 +794,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:619: Undefined control sequence.
+chapters/methodology.tex:598: Undefined control sequence.
 <argument> \text 
                  {Precision} \times \text {Recall}
-l.619 {\text{Precision} + \text{Recall}}
+l.598 {\text{Precision} + \text{Recall}}
                                         
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -812,10 +805,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:619: Undefined control sequence.
+chapters/methodology.tex:598: Undefined control sequence.
 <argument> \text {Precision} \times \text 
                                           {Recall}
-l.619 {\text{Precision} + \text{Recall}}
+l.598 {\text{Precision} + \text{Recall}}
                                         
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -823,10 +816,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:619: Undefined control sequence.
+chapters/methodology.tex:598: Undefined control sequence.
 <argument> \text 
                  {Precision} + \text {Recall}
-l.619 {\text{Precision} + \text{Recall}}
+l.598 {\text{Precision} + \text{Recall}}
                                         
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -834,10 +827,10 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:619: Undefined control sequence.
+chapters/methodology.tex:598: Undefined control sequence.
 <argument> \text {Precision} + \text 
                                      {Recall}
-l.619 {\text{Precision} + \text{Recall}}
+l.598 {\text{Precision} + \text{Recall}}
                                         
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -845,8 +838,9 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:629: Undefined control sequence.
-l.629 \text
+[14 <./attachments/dnn.png>]
+chapters/methodology.tex:608: Undefined control sequence.
+l.608 \text
            {MCC} = \frac{TP \times TN - FP \times FN}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -854,8 +848,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-chapters/methodology.tex:640: Undefined control sequence.
-l.640 \text
+chapters/methodology.tex:619: Undefined control sequence.
+l.619 \text
            {ROC-AUC} = \int_{0}^{1} \mathrm{TPR}(\mathrm{FPR}) \, d(\mathrm{...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -864,13 +858,13 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `tab:evaluation-results' on page 15 undefined on input line 679.
+LaTeX Warning: Reference `tab:evaluation-results' on page 15 undefined on input line 658.
 
 
-LaTeX Warning: Reference `tab:class_distribution' on page 15 undefined on input line 681.
+LaTeX Warning: Reference `tab:class_distribution' on page 15 undefined on input line 660.
 
 
-LaTeX Warning: Citation `Chandra2025' on page 15 undefined on input line 682.
+LaTeX Warning: Citation `Chandra2025' on page 15 undefined on input line 661.
 
 [15]) [16]
 \openout2 = `chapters/evaluation.aux'.
@@ -892,12 +886,7 @@ Chapter 6.
 
 
 
-] (main.bbl) [19
-
-
-
-
-] (main.aux (chapters/abstract.aux) (chapters/declaration.aux) (chapters/acknowledgments.aux) (chapters/dedication.aux) (chapters/introduction.aux) (chapters/foundations.aux) (chapters/literature review.aux) (chapters/methodology.aux) (chapters/evaluation.aux) (chapters/conclusion.aux))
+] (main.bbl) (main.aux (chapters/abstract.aux) (chapters/declaration.aux) (chapters/acknowledgments.aux) (chapters/dedication.aux) (chapters/introduction.aux) (chapters/foundations.aux) (chapters/literature review.aux) (chapters/methodology.aux) (chapters/evaluation.aux) (chapters/conclusion.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
@@ -919,17 +908,17 @@ Package rerunfilecheck Info: Checksums for `main.out':
 (rerunfilecheck)             After:  D4653B2B9CA3344624D1C1E5DB296A32;3590.
  ) 
 Here is how much of TeX's memory you used:
- 22421 strings out of 467501
- 442443 string characters out of 5409037
- 841821 words of memory out of 5000000
- 51163 multiletter control sequences out of 15000+600000
- 637386 words of font info for 72 fonts, out of 8000000 for 9000
+ 22391 strings out of 467501
+ 441933 string characters out of 5409037
+ 841825 words of memory out of 5000000
+ 51145 multiletter control sequences out of 15000+600000
+ 637039 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 92i,12n,104p,2967b,858s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Acer\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (25 pages, 1061645 bytes).
+ 92i,12n,104p,1293b,858s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Acer\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Acer/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on main.pdf (24 pages, 1032846 bytes).
 PDF statistics:
- 291 PDF objects out of 1000 (max. 8388607)
- 88 named destinations out of 1000 (max. 500000)
+ 269 PDF objects out of 1000 (max. 8388607)
+ 77 named destinations out of 1000 (max. 500000)
  43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

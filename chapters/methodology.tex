@@ -314,6 +314,13 @@ all the common labels from the datasets. We also checked and deleted the bad row
     \end{tabularx}
 \end{table}
 
+
+\section{Feature Engineering}
+In order to maximize the intrusion detection, we mapped the attacks of similar nature. Since, the tree based models are robust in handling the class-imbalance, 
+we have simply implemented class-weighting and avoided using SMOTE for Random Forest and XGBoost. Meanwhile, for our DNN architecture, we used RobustScaler to 
+fit-transform the train datasets only. To check the best hyperparameters for the models, we have utilized Optuna study \cite{Akiba2019} to get the best configuration 
+of the models that would generate maximum F1 score for the 'Attack' class . 
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[
@@ -322,14 +329,30 @@ all the common labels from the datasets. We also checked and deleted the bad row
         keepaspectratio
     ]{attachments/attack distribution.png}
     \caption{Attack Distribution across Datasets after Mapping 'Attack'}
-    \label{fig:attack-distribution}
+    \label{fig:attack-counts after mapping}
 \end{figure}
 
-\section{Feature Engineering}
-In order to maximize the intrusion detection, we mapped the attacks of similar nature. Since, the tree based models are robust in handling the class-imbalance, 
-we have simply implemented class-weighting and avoided using SMOTE for Random Forest and XGBoost. Meanwhile, for our DNN architecture, we used RobustScaler to 
-fit-transform the train datasets only. To check the best hyperparameters for the models, we have utilized Optuna study \cite{Akiba2019} to get the best configuration 
-of the models that would generate maximum F1 score for the 'Attack' class . 
+\begin{table}[!ht]
+\centering
+\caption{Attack Counts across Datasets after Mapping 'Attack'}
+\label{tab:attack_counts after mapping}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Label} & \textbf{CICIDS2017} & 
+\textbf{CSE-CIC-IDS2018} & \textbf{UNSW-NB15} \\
+\hline
+BENIGN        & 2073870 & 12196127 & 3389125 \\
+Bot           & 1953    & 144535   & 0       \\
+BruteForce    & 9152    & 94655    & 0       \\
+DDoS          & 128016  & 776782   & 0       \\
+DoS           & 193748  & 196568   & 9064    \\
+Infiltration  & 47      & 140612   & 63734   \\
+PortScan      & 90819   & 0        & 16710   \\
+WebAttack     & 2143    & 312      & 0       \\
+\hline
+\end{tabular}
+\end{table}
+
 
 \section{Model Training}
 \subsection{Random Forest}
@@ -540,51 +563,7 @@ on CIC-IDS-2017 and secondly using the best hyperparameters to evaluate the perf
     \label{fig:dnn}
 \end{figure}
 
-\begin{table}[!ht]
-    \centering
-    \caption{Hyperparameters for DNN}  
-    \label{tab:Hyperparameters-details DNN}
-    {\fontsize{9}{11}\selectfont
-    \renewcommand{\arraystretch}{1.25}
-    \begin{tabularx}{\textwidth}{
-        >{\raggedright\arraybackslash}p{3.5cm}
-        >{\centering\arraybackslash}p{2.0cm}
-        >{\raggedright\arraybackslash}X
-    }
 
-        \toprule
-
-        \textbf{Hyperparameter} &
-        \textbf{Search Space} &
-        \textbf{Purpose} \\
-
-        \midrule
-
-        n\_layers &
-        2, 4 &
-        Controls network depth, learns complex features and balances overfitting\\
-
-        units per layer&
-        [512, 256, 128, 64] &
-        Controls width of hidden layer and checks the respresentational capacity at each layer \\
-
-        learning\_rate &
-        [1e-4, 1e-2] &
-        Controls the step size during gradient descent \\
-
-        dropout\_rate &
-        0.1, 0.5 &
-        Deactivate the neurons during training to prevent overfitting and overall regularizes the network \\
-        
-        batch\_size &
-        [512, 1024, 2048, 4096] &
-        Prevents memory crashes, training speed and gradient noise by controlling the number of samples processed \\
-
-        \bottomrule
-    \end{tabularx}
-    }
-\end{table}
-\FloatBarrier
 
 \section{Model Evaluation}
 Since, the main objective of the study is to find out which model shows robust performance in cross-dataset generalization for network intrusion detection,
@@ -642,7 +621,7 @@ we have prioritized F1-Score, MCC and ROC-AUC Curve as the evaluation metrics. A
 
 \begin{table}[htbp]
     \centering
-    \caption{Model Performance Metrics}
+    \caption{Model Performance Metrics without Optuna Study}
     \label{tab:model_performance}
     \scriptsize
     \setlength{\tabcolsep}{3pt}
@@ -684,6 +663,117 @@ on this particular dataset. Also, the methodology used are in contrast to what w
 
 The biggest disappointment above all is the result from DNN architecture. The model yielded accuracy above 88\% for both datasets, however the results for our 
 preferred metrics are negligible/avoidable. As, DNN relies on the depth of the layers to learn complex features and their patterns, huge class-imbalance and the depth
-of layers used could have been the reason for the poor performance. We have only used 4 hidden layers to detect attacks from the network traffic. With more 
-hidden layers, the performance might improve.
+of layers used could have been the reason for the poor performance. We have only used 4 hidden layers to detect attacks from the network traffic. Further more, we 
+conducted Optuna study twice to tune the hyperparameters and used them to check whether the results improve, there was no significant change in the results of 
+Random Forest and XGBoost, however we saw improvement in the performance of DNN. But tuning the hyperparameters showed inconsistent influence over the test datasets 
+CSE-CIC-IDS2018 and UNSW-NB15.  
+
+The following are the hyperparameters we used for our Optuna Studies.
+
+\begin{table}[!ht]
+    \centering
+    \caption{Hyperparameters for DNN Optuna Studies}  
+    \label{tab:Hyperparameters-details DNN Optuna1}
+    {\fontsize{9}{11}\selectfont
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{3.5cm}
+        >{\centering\arraybackslash}p{2.0cm}
+        >{\raggedright\arraybackslash}X
+    }
+
+        \toprule
+
+        \textbf{Hyperparameter} &
+        \textbf{Search Space} &
+        \textbf{Purpose} \\
+
+        \midrule
+
+        n\_layers &
+        2, 6 &
+        Controls network depth, learns complex features and balances overfitting\\
+
+        units per layer&
+        [512, 256, 128, 64] &
+        Controls width of hidden layer and checks the respresentational capacity at each layer \\
+
+        learning\_rate &
+        [1e-4, 1e-2] &
+        Controls the step size during gradient descent \\
+
+        dropout\_rate &
+        0.1, 0.5 &
+        Deactivate the neurons during training to prevent overfitting and overall regularizes the network \\
+        
+        batch\_size &
+        [512, 1024, 2048, 4096] &
+        Prevents memory crashes, training speed and gradient noise by controlling the number of samples processed \\
+
+        \bottomrule
+    \end{tabularx}
+    }
+\end{table}
+\FloatBarrier
+
+\begin{table}[htbp]
+    \centering
+    \caption{DNN Performance Metrics with Optuna Study -1}
+    \label{tab:model_performance}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabular}{llccccccc}
+        \toprule
+        \textbf{Model} & \textbf{Test Dataset} &
+        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
+        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
+        \midrule
+
+        \multirow[c]{2}{*}{Deep Neural Network}
+        & CSE-CIC-IDS2018 & 0.9001 & 0.4135 & 0.0005 & 0.0010 & 0.4742 & 0.5954 & 0.0114 \\
+        & UNSW-NB15       & 0.9759 & 0.8357 & 0.0794 & 0.1449 & 0.5664 & 0.8096 & 0.2532 \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The best hyperprameters after Optuna Study 1 are:
+\[
+\{n\_{\mathrm{layers}},\, \mathrm{units},\, \mathrm{dropout\_rate},\, 
+\mathrm{learning\ rate},\, \mathrm{batch\_size}\}
+=
+\{4,\,512,\,0.179447,\,0.001116,\,512\}.
+\]
+
+\begin{table}[htbp]
+    \centering
+    \caption{Model Performance Metrics with Optuna Study -2}
+    \label{tab:model_performance}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+
+    \begin{tabular}{llccccccc}
+        \toprule
+        \textbf{Model} & \textbf{Test Dataset} &
+        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
+        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
+        \midrule
+
+        \multirow[c]{2}{*}{Deep Neural Network}
+        & CSE-CIC-IDS2018 & 0.9058 & 0.9824 & 0.0584 & 0.1102 & 0.5302 & 0.5470 & 0.2274 \\
+        & UNSW-NB15       & 0.9360 & 0.0025 & 0.0038 & 0.0030 & 0.4850 & 0.7923 & -0.0293 \\
+
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The best hyperprameters after Optuna Study 2 are: 
+\[
+\{n\_{\mathrm{layers}},\, \mathrm{units},\, \mathrm{dropout\_rate},\,
+\mathrm{learning\_rate},\, \mathrm{batch\_size}\}
+=
+\{4,\,512,\,0.111666,\,0.000527,\,512\}.
+\]
+
 
