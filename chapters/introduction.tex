@@ -7,7 +7,7 @@ firewalls and benefit by constantly bombarding malicious attacks that the obsole
 Kaspersky could never detect \cite{Miani2025}. Thus, urges the need for the deployment of Network Intrusion Detection System (NIDS). Robust AI 
 mechanism and machine learning algorithms assist NIDS to detect sophisticated unseen attacks. Thep help in identifying the patterns of the malicious 
 attacks analyze them and blocks them enabling a secured network infrastructure in the future. The deployment of Supervised Machine Learning models such 
-as Random Forest, XGBoost, Unsupervised Learning models (PCA, K- Means, Autoencoders) and Deep Learning models exhibit better performance in intrusion 
+as Random Forest, XGBoost, Unsupervised Learning models (Isolation Forest, One-Class SVM, Autoencoders) and Deep Learning models exhibit better performance in intrusion 
 detection from unknown attacks with improved accuracy and F1- Score \cite{deCarvalhoBertoli2023}; \cite{Hamidou2025}; \cite{Wicaksana2026} particularly 
 on CICIDS2017 and UNSW-NB15 datasets easily available on public domain. Unlike previous datasets such as KDD Cup 1999 and NSL – KDD, these datasets 
 contain real network traffic with varied attacks inhibiting wider traffic patterns \cite{Moustafa2015,Sharafaldin2018}. Even though several AI driven 
@@ -22,3 +22,95 @@ more sophisticated versions of web attacks continuously \cite{Qazi2022}. Some of
 \end{itemize}
 These issues motivate the researchers to find alternative ways to build robust NIDS to safeguard the computer network from intruders. This allows researchers 
 to learn new patterns of attacks and dynamically adjust the models from a classical approach to a revolutionary approach \cite{Kottilingal2024}.
+
+\section{Underpinning Theory}
+\label{sec:underpinning-theory}
+
+\subsection{Anomaly-Detection Theory}
+\label{subsec:anomaly-detection-theory}
+
+Anomaly-detection theory provides the principal foundation for this research. It assumes that normal observations exhibit an underlying structure that can be learned and that observation departing sufficiently 
+from this structure may be anomalous. In flow-based network intrusion detection, an observation represents a network flow described by statistical measurements such as duration, packet count, transferred bytes, 
+mean packet lengths, and traffic rates. A detector learns the expected distribution or structure of these characteristics and assigns higher anomaly scores to observation that depart from the learned representation.
+
+Unsupervised anomaly detection reduces dependence on labelled attack examples. This is useful because attack labels can be expensive to produce, incomplete, inaccurate, or unavailable for emerging threats. Models trained 
+primarily on normal traffic may also identify previously unseen attacks because they are not restricted to recognizing attack classes observed during training. However, unsupervised detection does not automatically establish 
+that an unusual observation is malicious. Changes in legitimate applications, devices, users, and traffic volumes may also appear anomalous. Similarly, attacks designed to imitate ordinary behavior may remain close to learned 
+normal representation \cite{Pang2021,Chou2022}. Anomaly detection therefore involves uncertainty and should not be interpreted as a perfect separation between benign and malicious traffic. Operational performance depends on the 
+quality and representativeness of the normal data training data, the selected features, the anomaly-scoring mechanisms, and the decision threshold. The anomaly-detection process contains two distinct decisions. First, a model produces 
+a continuous anomaly score. Secondly, an operating threshold converts that score into a benign or attack prediction. A model may successfully rank attack observations above benign observations while producing weak binary classifications 
+if the selected threshold is inappropriate. This distinction is central to the interpretation of ROC-AUC and F1\_Score in the present study.
+ROC-AUC evaluates the ranking of continuous anomaly score across possible thresholds. F1\_Score evaluates the binary classifications produced using one selected operating threshold. Reporting both measures helps distinguish weak anomaly 
+representation from weak threshold transfer.
+
+\subsection{One-Class Learning}
+\label{subsec:one-class-learning}
+
+One-class learning builds a representation of one class rather than learning decisions boundaries among several labelled classes. In anomaly-based network intrusion detection, the model is commonly fitted using benign  observation and treats departure from the learned profile as potential attacks. 
+
+This approach reflects the practical asymmetry between relatively abundant normal traffic and incomplete knowledge of possible attacks. It may therefore provide a mechanism for identifying attacks that were not represented during model training.
+
+The validity of one-class learning depends on several assumptions. Normal training data must be sufficiently representative substantial contamination must be absent,  and the selected features must preserve meaningful behavioral differences.
+
+If attack observations contaminate the normal training partition, the model may learn some malicious behavior as normal. Conversely, if the normal training data represent only a narrow range of legitimate behavior,  the detector may incorrectly classify unfamiliar benign traffic as malicious \cite{Pang2021,Yang2022}.
+
+The unsupervised models evaluated in this research implement one-class learning differently. Isolation Forest identifies observations that are easier to isolate than normal observations. One-Class SVM estimates a boundary enclosing normal traffic. The improved autoencoder learns a reconstruction function from normal observations.
+
+Comparing these mechanisms under a consistent experimental protocol helps determine whether any particular representation of normality is more transferable across independently collected datasets. 
+
+\subsection{Dataset Shift and Domain Shift}
+\label{subsec:dataset-domain-shift}
+
+Datasets shift occurs when the statistical distributions encountered during testing differs from the distributions used during training. Domain shift is  related concepts describing differences between the source environment used for model development and the target environment in which the is evaluated or deployed. 
+
+In network intrusion detection, these differences may arise from:
+
+\begin{itemize}
+\item network architecture and topology;
+\item available services and applications;
+\item communication protocols;
+\item user and device behavior;
+\item traffic volume and timing;
+\item attack implementation;
+\item capture tools and flow exporters;
+\item feature definitions;
+\item sampling procedures; and 
+\item class proportions.
+\end{itemize}
+
+Dataset shift is therefore not an isolated defect. It represents a collection of differences that can affect both benign and malicious traffic. A model trained using one network may interpret legitimate traffic from another network as anomalous because  its applications, devices, or traffic volumes differ.
+
+Within-datasets evaluation may conceal these problems because the training and test partitions share a common origin. Even when individual observations do not overlap, both partitions may retain the same traffic-generation process, feature distributions , and collection artefacts.
+
+High within-dataset performances may consequently represent interpolation within one benchmark rather than transfer to an independent environment \cite{Kenyon2020, Goldschmidt2025}.
+
+Cross-dataset evaluations provide a stronger test because model training and testing use independently collected datasets. \cite{Verkerken2022} evaluated an autoencoder, Isolation Forest, One-Class SVM, and Principal Component Analysis using CICIDS2017 and CSE-CIC-IDS2018. 
+
+Although the models performed strongly during individual-dataset evaluations, their average ROC-AUC decreased by approximately 30.45\%  under inter-dataset evaluation. This finding demonstrates the gap that can exist between internal performance and external generalizations.
+
+\cite{Cantone2024} similarly found that models obtaining strong within-dataset results could perform close to chance in cross-dataset settings. Their analysis associated weak transfer with dataset heterogeneity and differences in underlying features distributions.
+
+Together, these studies support the central theoretical expectations of the present dissertation: cross-dataset evaluation is expected  to produce lower performance than within-dataset evaluation. However, the extent of the deterioration may depend on the model, source dataset, target dataset, and direction of transfer.
+
+\subsection{Generalization Theory}
+\label{subsec:generalisation-theory}
+
+Generalization refers to model's ability to perform effectively on observations that were not used during model development. Cross-dataset 
+generalizations imposes a stronger requirement because the unseen observations originate from an independent data collection rather than a 
+held-out partition of the source dataset.
+
+ A transferable intrusion detector should learn relationships that remain useful when dataset characteristics change. It should not depend 
+ primarily on collection artefacts, dataset-specific feature ranges, or attack patterns found only in the source dataset. A reliable cross-dataset 
+ experiment must prevent target-domain information from influencing preprocessing, model fitting, model selection, or threshold calibration. 
+ Fitting a scaler using combined source and target data, selecting hyperparameters based on target performance, or maximizing target F1\_Score 
+ would introduce information leakage.
+ 
+ The resulting performance would describe target-assisted adaptation rather than strict external generalization. Transparent data handling and 
+ clear separation of source and datasets are therefore essential \cite{Ring2019,Yang2022,Goldschmidt2025}.
+ 
+ In the present research, anomaly representation are fitted using normal source-domain traffic. Labels from a held-out source validation partition 
+ support model selection and decision-threshold calibration. The procedure is therefore described as \emph{unsupervised representation learning 
+ with source-domain validation calibration} rather than as a completely label-free pipeline. Target labels are reserved exclusively for the final 
+ calculation of evaluation measures.
+ 
+

@@ -1,0 +1,155 @@
+\begin{thebibliography}{}
+
+\bibitem[Akiba et~al., 2019]{Akiba2019}
+Akiba, T., Sano, S., Yanase, T., Ohta, T., and Koyama, M. (2019).
+\newblock Optuna: A next-generation hyperparameter optimization framework.
+\newblock {\em Proceedings of the ACM SIGKDD International Conference on
+  Knowledge Discovery and Data Mining}, pages 2623--2631.
+
+\bibitem[Alhajjar et~al., 2021]{Alhajjar2021}
+Alhajjar, E., Maxwell, P., and Bastian, N. (2021).
+\newblock Adversarial machine learning in network intrusion detection systems.
+\newblock {\em Expert Systems with Applications}, 186.
+
+\bibitem[Cantone et~al., 2024]{Cantone2024}
+Cantone, M., Marrocco, C., and Bria, A. (2024).
+\newblock Machine learning in network intrusion detection: A cross-dataset
+  generalization study.
+\newblock {\em IEEE Access}, 12:144489--144508.
+
+\bibitem[Chandra and Anandappa, 2025]{Chandra2025}
+Chandra, R. and Anandappa (2025).
+\newblock Real-time network intrusion detection system using deep learning:
+  Identifying cyber attacks through anomaly pattern recognition.
+\newblock {\em Journal of Scientific Research and Technology}, pages 106--117.
+
+\bibitem[Chou and Jiang, 2022]{Chou2022}
+Chou, D. and Jiang, M. (2022).
+\newblock A survey on data-driven network intrusion detection.
+\newblock {\em ACM Computing Surveys}, 54(9):1--36.
+
+\bibitem[de~Carvalho~Bertoli et~al., 2023]{deCarvalhoBertoli2023}
+de~Carvalho~Bertoli, G., Junior, L. A.~P., Saotome, O., and dos Santos, A.~L.
+  (2023).
+\newblock Generalizing intrusion detection for heterogeneous networks: A
+  stacked-unsupervised federated learning approach.
+\newblock {\em Computers \& Security}, 127:103106.
+
+\bibitem[Elangovan et~al., 2026]{Elangovan2026}
+Elangovan, R., Parthasarathy, D.~D., Jawahar, M., Kaliyaperumal, P., Balusamy,
+  B., Yogarayan, S., and Venkatesan, V. (2026).
+\newblock Cross-dataset temporal and semantic generalization of intrusion
+  detection models for the future internet.
+\newblock {\em Future Internet 2026, Vol. 18, Page 194}, 18:194.
+
+\bibitem[Goldschmidt and Chud{\'a}, 2025]{Goldschmidt2025}
+Goldschmidt, P. and Chud{\'a}, D. (2025).
+\newblock Network intrusion datasets: A survey, limitations, and
+  recommendations.
+\newblock {\em Computers \& Security}, 158.
+
+\bibitem[Gourceyraud et~al., 2025]{Gourceyraud2025}
+Gourceyraud, M., Ben~Salem, R., Neal, C., Cuppens, F., and Boulahia~Cuppens, N.
+  (2025).
+\newblock Federated intrusion detection system based on unsupervised machine
+  learning.
+
+\bibitem[Hamidou and Mehdi, 2025]{Hamidou2025}
+Hamidou, S.~T. and Mehdi, A. (2025).
+\newblock Enhancing ids performance through a comparative analysis of random
+  forest, xgboost, and deep neural networks.
+\newblock {\em Machine Learning with Applications}, 22:100738.
+
+\bibitem[Hindy et~al., 2020]{Hindy2020}
+Hindy, H., Brosset, D., Bayne, E., Seeam, A., Tachtatzis, C., Atkinson, R., and
+  Bellekens, X. (2020).
+\newblock A taxonomy of network threats and the effect of current datasets on
+  intrusion detection systems.
+\newblock {\em IEEE Access}, 8:104650--104675.
+
+\bibitem[Kenyon et~al., 2020]{Kenyon2020}
+Kenyon, M., Deka, L., and Elizondo, D. (2020).
+\newblock Are public intrusion datasets fit for purpose? characterising the
+  state of the art in intrusion event datasets.
+\newblock {\em Computers \& Security}, 99.
+
+\bibitem[Khraisat et~al., 2019]{Khraisat2019}
+Khraisat, A., Gondal, I., Vamplew, P., and Kamruzzaman, J. (2019).
+\newblock Survey of intrusion detection systems: Techniques, datasets and
+  challenges.
+\newblock {\em Cybersecurity}, 2(1).
+
+\bibitem[Kottilingal, 2024]{Kottilingal2024}
+Kottilingal, S. (2024).
+\newblock Deep learning based network intrusion detection system: A deep
+  abstract networks (danets) model approach.
+\newblock {\em International Research Journal of Computer Science},
+  11:539--544.
+
+\bibitem[Miani et~al., 2025]{Miani2025}
+Miani, R.~S., Bernardo, G. D.~G., Cassales, G.~W., Senger, H., and de~Faria,
+  E.~R. (2025).
+\newblock A survey of data stream-based intrusion detection systems.
+\newblock {\em IEEE Access}, 13:72953--72983.
+
+\bibitem[Moustafa and Slay, 2015]{Moustafa2015}
+Moustafa, N. and Slay, J. (2015).
+\newblock Unsw-nb15: A comprehensive data set for network intrusion detection
+  systems (unsw-nb15 network data set).
+\newblock {\em 2015 Military Communications and Information Systems Conference,
+  MilCIS 2015 - Proceedings}.
+
+\bibitem[Pang et~al., 2021]{Pang2021}
+Pang, G., Shen, C., Cao, L., and van~den Hengel, A. (2021).
+\newblock Deep learning for anomaly detection: A review.
+\newblock {\em ACM Computing Surveys}, 54(2):1--38.
+
+\bibitem[Pinto et~al., 2025]{Pinto2025}
+Pinto, D., Amorim, I., Maia, E., and Pra{\c{c}}a, I. (2025).
+\newblock A review on intrusion detection datasets: Tools, processes, and
+  features.
+\newblock {\em Computer Networks}, 262.
+
+\bibitem[Ring et~al., 2019]{Ring2019}
+Ring, M., Wunderlich, S., Scheuring, D., Landes, D., and Hotho, A. (2019).
+\newblock A survey of network-based intrusion detection data sets.
+\newblock {\em Computers \& Security}, 86:147--167.
+
+\bibitem[Sharafaldin et~al., 2018]{Sharafaldin2018}
+Sharafaldin, I., Lashkari, A.~H., and Ghorbani, A.~A. (2018).
+\newblock Toward generating a new intrusion detection dataset and intrusion
+  traffic characterization.
+\newblock {\em International Conference on Information Systems Security and
+  Privacy}, 2018-January:108--116.
+
+\bibitem[Thakkar and Lohiya, 2020]{Thakkar2020}
+Thakkar, A. and Lohiya, R. (2020).
+\newblock A review of the advancement in intrusion detection datasets.
+\newblock {\em Procedia Computer Science}, 167:636--645.
+
+\bibitem[ul~Haq~Qazi et~al., 2022]{Qazi2022}
+ul~Haq~Qazi, E., Imran, M., Haider, N., Shoaib, M., and Razzak, I. (2022).
+\newblock An intelligent and efficient network intrusion detection system using
+  deep learning.
+\newblock {\em Computers and Electrical Engineering}, 99.
+
+\bibitem[Verkerken et~al., 2022]{Verkerken2022}
+Verkerken, M., D'hooge, L., Wauters, T., Volckaert, B., and De~Turck, F.
+  (2022).
+\newblock Towards model generalization for intrusion detection: Unsupervised
+  machine learning techniques.
+\newblock {\em Journal of Network and Systems Management}, 30(1).
+
+\bibitem[Wicaksana and Umam, 2026]{Wicaksana2026}
+Wicaksana, F.~A. and Umam, C. (2026).
+\newblock Comparative analysis of random forest and xgboost performance for
+  network flow-based malware classification.
+\newblock {\em INOVTEK Polbeng - Seri Informatika}, 11:108--115.
+
+\bibitem[Yang et~al., 2022]{Yang2022}
+Yang, Z., Liu, X., Li, T., Wu, D., Wang, J., Zhao, Y., and Han, H. (2022).
+\newblock A systematic literature review of methods and datasets for
+  anomaly-based network intrusion detection.
+\newblock {\em Computers \& Security}, 116.
+
+\end{thebibliography}

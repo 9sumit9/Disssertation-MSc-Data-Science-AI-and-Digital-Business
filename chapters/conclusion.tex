@@ -1,3 +1,167 @@
-\chapter{Conclusion}
+\chapter{Discussion and Conclusion}
+\label{chap:discussion-conclusion}
 
-This is a chapter...
+This chapter interprets the findings relative to the research questions and objectives. The dissertation evaluated the performance of
+Supervised Machine Learning Models (Random Forest, XGBoost, DNN) and Unsupervised Machine Learning Models (Isolation Forest, One-Class SVM, and improved 
+Auto Encoder) on CICIDS2017, CSE-CIC-IDS2018, and UNSW-NB15 for cross-dataset generalization for NIDS.
+
+Two aspects of performance must be distinguished. ROC-AUC measures how well continuous anomaly scores rank attacks above benign flows 
+across thresholds. F1\_score and False-Positive Rate (FPR) describe the detector's behaviour at the threshold selected using source 
+validation data. A model can retain useful score discrimination after transfer while producing too many false alerts at that frozen 
+thresholds. The implication, contribution, limitations, and conclusions are considered with this distinction in mind.
+
+\section{Implications}
+\label{sec:conclusion-implications}
+
+\subsection*{Implications for Cross-Dataset Generalization}
+
+The within-dataset results provided useful baselines but did not predict reliable performance on external datasets. We performed within dataset
+generalization using Supervised Models only for CICIDS2017. All the models generated F1\_Score and ROC-AUC higher than 0.99; XGBoost being the best 
+model. Isolation Forest achieved the highest within-dataset F1\_Score on CICIDS2017 (0.7250) and CSE-CIC-IDS2018 (0.5700), while the improved 
+autoencoder led on UNSW-NB15 (0.8112). Meanwhile within-dataset ROC-AUC was 0.9097 for Isolation Forest, 0.7914 for One-Class SVM, and 0.8335 for the 
+autoencoder. The corresponding cross-dataset means were 0.6250, 0.6211, and 0.6490. These are arithmetic averages across different paths, not 
+estimates of performance variation across repeated runs.  All the models (Supervised and Unsupervised) had lower mean ROC-AUC and F1\_Score 
+across the cross-dataset paths than across their within-dataset paths.
+
+They nevertheless describe a consistent deterioration in the recorded experiment. The results reinforces the need for external testing highlighted 
+by \cite{Verkerken2022} and the broader cross-dataset concerns discussed by \cite{Cantone2024}. Transfer direction also mattered. A model trained 
+on CICIDS2017 and evaluated on CSE-CIC-IDS2018 did not necessarily behave like a model trained on CSE-CIC-IDS2018 and evaluated on CICIDS2017. 
+Reversing the direction changes the normal training distribution, fitted preprocessing parameters, selected configuration, and source-calibrated 
+threshold. Cross-dataset findings should therefore name both the source and target rather than treat a dataset pair as one undirected experiment.
+
+\subsection*{Implications for Intrusion Detection Practice}
+
+The findings from the comparative analysis illustrate that 'Accuracy' or 'ROC-AUC' doesn't attribute as the effective indicators of the perfomance of 
+the models. Although some models showed significant ROC-AUC scores, their operational thresholds and performance were limited in most cases. For example, 
+Isolation Forest trained on UNSW-NB15 and tested on CICIDS2017 yielded a ROC-AUC score of 0.8029, yet the threshold calibration gave a false positive rate 
+of 0.9307, meaning that it wrongly flagged 59786 out of 64240 legitimate flows. Similarly, the Improved Autoencoder trained on CSE-CIC-IDS2018 yielded the 
+highest ROC-AUC of 0.8279 among the three unsupervised models studied even though it had a false positive rate of 0.8866 when evaluated using CICIDS2017. Conversely,
+all 3 unsupervised models achieved ROC-AUC scores below 0.50, implying uneffective transfer from CSE-CIC-IDS2018 to UNSW-NB15. These results, indicate that a good 
+discrimination indicator does not necessarily mean a good operating point for actual use.
+
+This type of incosistency between overall performance and successful attack detection was observed in the performance of supervised models as well.  Random Forest saw 
+accuracies of 0.9188 and 0.9743 for CSE-CIC-IDS2018 and UNSW-NB15 respectively, but its attack recall were only 0.2043 and 0.0002 respectively. XGBoost saw ROC-AUC scores 
+of 0.9153 and 0.7829 across the two test datasets. Despite better 
+ROC-AUC scores, the recall score stood low at 0.3150 and 0.0739 implying the model's effectiveness in detecting minority attack classes.
+
+The outcome of DNN serves as an additional proof that the configuration of a model lead to different results across datasets. The first Optuna study of DNN achieved ROC-AUC 
+of 0.5954 and 0.8096 with recall score of 0.0005 and 0.0794 for the 2 test datasets. The second Optuna study showed lower scores than the first one. Despite some improvements 
+in metrics, DNN still showed inconsistent performance lacking the capability to detect attacks even after optimizing the hyperparameters.
+
+Altogether, the results suggest that NIDS evaluation across datasets should provide information on a number of supporting metrics instead of relying on a single metric. This is 
+significant since accuracy can still be high even if the models detect few attacks when the datasets are highly imbalanced. Despite the usefulness of ROC-AUC for evaluating ranking 
+performance, it does not indicate whether the threshold set allows for the desired number of missings and false alarms.
+
+None of the models showed robustness in generalizing for NIDS. Hence, they are not ready for deployments. A high false-positive rate can be very demanding for security analysts in a 
+real intrusion detection process, while a low recall may allow attacks to remain undetected. Hence, it is important to have a clearly determined false alarm budget, the correct calibration 
+of thresholds on representative validation data, further validation using real traffic of the targe environment and an assessment of resources required for alerts investigations in order to 
+deploy the model in real scenario.
+
+To sum up, from the results, it can be concluded that predictive performance based on a dataset doesn't guarantee that the model can be used on other unseen datasets. Even though, if the model
+performs well on one benchmark dataset, it doesn't mean that the model is trustworthy in generating better results from other dataset. Thus, the model selection criteria should consider classical 
+aggregate performance criteria as well as attack-class recall, false-positive rate, consistent performance across datasets and the operational threshold stability. 
+\section{Research Contributions}
+\label{sec:conclusion-contributions}
+
+The primary contribution is consistent directional comparison of three unsupervised anomaly-detection models across three intrusion-detection 
+datasets. The experiment used a common nine-feature flow representation, source-fitted preprocessing, normal-only model training, labelled 
+source-domain validation for model and threshold selection, and fixed target test partitions. This design made the nine source-to-target paths 
+comparable within the recorded experiment.
+
+A second contribution is the joint interpretation of ranking and operating-point performance. The difference between ROC-AUC and F1\_Score or FPR 
+is not a technical detail: it changes the conclusion that can reasonably be drawn about transferred detector. Several models retained some ranking 
+ability while producing many false alerts at their source-calibrated thresholds. Reporting all three measures prevents a favourable ROC-AUC from 
+concealing poor alert quality.
+
+A third contribution is the demonstration that no model led every transfer path. XGBoost generated the highest ROC-AUC of 0.9153 and F1\_Score of 0.4768 
+for CSE-CIC-IDS2018. DNN produced the highest ROC-AUC of 0.8107, best F1\_Score of 0.1328 by XGBoost for UNSW-NB15 amongst supervised models. The 
+autoencoder had the highest mean cross-dataset ROC-AUC (0.6490), while Isolation Forest had the highest mean cross-dataset F1\_Score (0.3084) amongst unsupervised models. Neither model can be called uniformly robust on that 
+basis: the difference were not tested across repeated runs, and some loading paths had high FPR.
+
+The study does not claim a new anomaly-detection architecture or overall superiority over published methods. For the CICIDS2017->CSE-CIC-IDS2018 
+directions also evaluated by \cite{Verkerken2022}, the present results showed higher ROC-AUC for all the models but lower F1\_Score. It could be 
+due to study variation as studies differ in feature construction, sampling, preprocessing, class composition, and threshold selection, these figures 
+do not form a controlled head-to-head test. The contribution is the transparent account of what transferred, what failed, and how the answer changed 
+with the metric and direction.
+
+The Research questions can be answered as follows:
+
+\begin{description}
+       \item[R01.]
+       All the supervised and unsupervised machine learning models generalised unevenly to unseen datasets. Some paths retained moderate score discrimination, whereas others had poor ROC-AUC 
+       or excessive false alarms. 
+       
+       \item[R02.]
+       Supervised Machine Learning Models outperformed Unsupervised Machine Learning Models in terms of performance for cross-dataset 
+       generalization for NIDS with higher F1\_Score and ROC-AUC. 
+       
+       \item[R03.]
+        No single model demonstrated consistently superior robustness across the dataset distribution shift in real-world network intrusion detection scenarios. XGBoost showed superior performance with F1\_Score of 0.4768 and 
+        ROC-AUC score of 0.9153 while tested on CSE-CIC-IDS2018. It remained superior supervised machine learning model for UNSW-NB15 as well, however, 
+        Improved Auto-Encoder showed robustness with F1\_Score of 0.3029 and ROC-AUC score of 0.7573 while tested on UNSW-NB15.
+\end{description}
+
+
+\section{Research Philosophy}
+\label{sec:conclusion-philosophy}
+
+The study adopted a positivist, deductive, quantitative, and comparative approach. Model type, source dataset, target dataset, anomaly scores, 
+predictions, and performance measures were recorded through defined computational procedure. The conclusions are based on those observations 
+rather than participant opinions.
+
+The deductive element involved examining expectations from prior work, that performance would often deteriorate under dataset shift, that model 
+behavior would differ, and that transfer direction would matter. The recorded results were consistent with these expectations descriptively. 
+However, one result per model and path does not support formal inferential testing.
+
+This approach also places a boundary on explanation. The experiment measured changes in performance but did not isolate the cause of each change. 
+Differences in normal traffic, attack composition, features extraction, prevalence, and threshold suitability are plausible explanations. Their 
+individual effects cannot be established from the reported results alone.
+
+\section{Constraints and Limitations}
+\label{sec:conclusion-limitations}
+
+\begin{itemize}
+    \item The three public benchmarks contained particular mixtures of traffic and attacks. They cannot and do not represent every current network 
+    or future attack. Dataset coverage and realism are recognised limitations of intrusion-detection.
+    \cite{Ring2019,Keyon2020}.
+    \item Harmonisation required the study to use nine network-flow features that could be constructed across all three datasets. This enabled direct 
+    transfer but excluded other potentially informative fields. Similar features names also do not guarantee identical measurement processes or 
+    distribution across data sources.
+    \item The within-dataset partitions were formed through stratified random sampling of flows. The experiment did not establish that duplicate 
+    or highly similar flows were separated, nor did it evaluate a later time period as o temporal holdout. Within-dataset performance may therefore 
+    be more favourable than performance under a stricter deployment-oriented split.
+    \item Computational caps limited training, validation, and testing to at most 100,000 normal training flows, 50,000 validation flows, and 80,000 
+    test flows per normal flows. The resulting estimates describe these sampled partitions, not every available flow.
+    \item Although model fitting used normal source traffic labelled source validation data were used for model selection and threshold calibration. 
+    The procedure should not be presented as entirely label-free. The same source-validation partition supported multiple development decisions, 
+    potentially making validation performance optimistic. Target labels were not used for those decisions and remained reserved for final evaluation.
+    \item Binary benign versus attack evaluation concealed differences among attacks categories. The experiment did not measure real-time latency, 
+    resource consumption, analyst workload, or detector behavior under continuously changing production attacks.
+\end{itemize} 
+
+\section{Scope for Future Researchers}
+\label{sec:conclusion-future-research}
+
+The most immediate extension is to repeat the experiment for all the models across severals independent random seeds. Reporting path-specific 
+means, dispersion, and uncertainity intervals would allow a stronger assessment of whether the observed difference are stable. A second extension 
+is to use deduplicated and temporal partitions, followed by testing on traffic from operationally distinct environments. These designs would 
+provide a more demanding test of whether within-dataset performance and cross-dataset ranking persist outside random flow-level splits.
+Third, future studies could compare several documented common feature sets while preserving source-only statistical fitting. This would help 
+distinguish information lost through nine-feature harmonisation from limitations of the anomaly-detection models. Fourth, threshold calibration 
+should be evaluated explicitly. Researchers could compare source-only threshold rules and report recall at predeclared false-positive-rate budget. 
+Unlabelled target adaptation may also be investigated, but it must be presented as a separate protocol. Target test labels must not determine 
+model selection or thresholds.Finally, future evaluations could add precision--recall curves, average precision, attack-category analyses, and 
+computational measurements. These would clarify the effects of class composition and the practical cost of operating each detector.
+
+
+\section{Summary}
+\label{sec:conclusion-summary}
+
+This dissertation tested whether Supervised and Unsupervised Machine learning models trained on normal source traffic dataset CICIDS2017 generalise 
+across benchmark test datasets CSE-CIC-IDS2018 and UNSW-NB15. Within-dataset performance did not reliably carry over to external datasets, and the 
+direction of transfer mattered. No model showed robust generalization capability for NIDS.
+
+The central conclusion is that cross-dataset generalisation requires more than a favourable score on one benchmark or metric. 
+ROC-AUC describes transferred score discrimination. F1\_Score show the consequences of making decisions at frozen source-calibrated threshold. 
+Several models retained some discrimination but generated excessive false alerts. The work provides a reproducible evaluation framework and a 
+bounded account of its findings, while identifying the validation needed before claims of reliable real-world intrusion detection can be made.

@@ -4,6 +4,23 @@ The study focuses on the overall performance of the models in detection of 'Atta
 study is to investigate the cross-dataset generalization capabilities of both supervised and unsupervised machine learning models for network intrusion detection, the models will be 
 trained entirely on CIC-IDS-2017 dataset and evaluated on unseen CSE-CIC-IDS2018 and UNSW-NB15 datasets.
 
+The concept recognises that datasets are active components of the experiment rather than neutral containers. Existing reviews identify 
+considerable variation in the realism, provenance, attack coverage, class balance, and feature construction of public NIDS datasets 
+\cite{Ring2019,Thakkar2020,Kenyon2020,Goldschmidt2025,Pinto2025}. Harmonising feature meaning is necessary for cross-dataset transfer, 
+but it does not make independently generated distributions identical. Corresponding features may retain different ranges, frequencies, 
+and statistical relationships. These remaining differences form part of the generalisation challenge. Transfer direction must be retained 
+explicitly because source and target distributions  are not interchangeable. A model trained using CICIDS2017 and tested using UNSW-NB15 
+may behave differently from a model trained using UNSW-NB15 and tested using CICIDS2017.
+
+This asymmetry occurs because each source dataset produces a different representation of normal traffic, preprocessing transformation, and 
+decision threshold. Both directions must therefore be evaluated for each pair of datasets. Federated unsupervised detection provides a 
+possible extensions to the conceptual framework. Learning from multiple decentralized sources could expose detector to more diverse normal 
+behaviour without requiring organizations to centralise sensitive network traffic.
+
+\cite{Gourceyraud2025} combined federated learning with unsupervised clustering. This work connects unsupervised learning, privacy, and 
+multi-source data. Federated learning is not evaluated in this dissertation, but it remains relevant to future privacy-preserving approaches 
+for increasing the diversity of training data.
+
 \begin{itemize}[nosep, leftmargin=*, itemsep=0pt, parsep=0pt, topsep=2pt]
     \item \textbf{Research Type:} Quantitative
     \item \textbf{Data:} Publicly available datasets
@@ -13,13 +30,18 @@ trained entirely on CIC-IDS-2017 dataset and evaluated on unseen CSE-CIC-IDS2018
             \end{itemize}
     \item \textbf{Sampling:} Non-Random Sampling
             \begin{itemize}
-                \item Convenience Sampling
+                \item Convenience Sampling for Supervised Machine Learning Models
+                \item Purpoisive Sampling for Unsupervised Machine Learning Models
             \end{itemize}   
     \item \textbf{Programming Language:} Python 3.11
-    \item \textbf{Libraries:} Pandas, Numpy, Tensorflow, Keras, Scikit-learn, Optuna, RobustScaler, Matplotlib, Seaborn
-    \item \textbf{Models:} Random Forest, XGBoost, DNN, Isolation Forest, One-Class SVM, Autoencoder
+    \item \textbf{Libraries:} Pandas, Numpy, Tensorflow, Keras, Scikit-learn, Optuna, RobustScaler, Matplotlib, Seaborn, Pytorch
+    \item \textbf{Models:} Random Forest, XGBoost, DNN, Isolation Forest, One-Class SVM, Improved Autoencoder
+    \item \textbf{Editor:}MacTeX and TeXShop for preparing the dissertation
     \item \textbf{Evaluation Metrics:} F1-Score, MCC, ROC-AUC Curve
 \end{itemize}
+
+
+\section{Cross-Dataset Generalization using Supervised Learning Models}
 
 \begin{figure}[H]
 \centering
@@ -89,11 +111,11 @@ trained entirely on CIC-IDS-2017 dataset and evaluated on unseen CSE-CIC-IDS2018
 
 \end{tikzpicture}%
 }
-\caption{Workflow for Cross-Dataset Generalization for Network Intrusion Detection.}
-\label{fig:methodology-pipeline}
+\caption{Workflow for Cross-Dataset Generalization for Network Intrusion Detection using Supervised Machine Learning Model.}
+\label{fig:methodology-pipeline for supervised machine learning}
 \end{figure}
 
-\section{Dataset Collection and Loading}
+\subsection{Dataset Collection and Loading}
 
 For the study of Cross-Dataset Generalization for Network Intrusion Detection Using Supervised and Unsupervised Machine Learning Models at an academic level, 
 we have sourced three datasets from public domain. The collected data are then loaded in chunks with memory optimization (dowcasting some datatypes) to avoid memory crash.
@@ -158,7 +180,7 @@ will be our test datasets for cross-dataset generalization for NIDS. A quick exp
 presence of ‘Benign’ class in all the datasets. 2273097 (80.3\%) in CIC-IDS-2017, 13484708 (83.06\%) in CSE- CIC-IDS2018 and 3450658 (97.46\%) in UNSW-NB15 
 are labeled as ‘Benign’ indicating huge class imbalance between the benign and attack classes.
 
-\subsection{CIC-IDS-2017}
+\subsubsection{CIC-IDS-2017}
 The dataset consists of network traffics collected from Monday to Friday at different time intervals originally extracted by the Canadian 
 Institute for Cybersecurity for the study of network intrusion detection. CIC-IDS-2017 datasets were generated utilizing CICFlowMeter to 
 create network flows and labelled them according to timestamps, source and target IP address, source and target ports, communication protocol 
@@ -166,7 +188,7 @@ and attack types. To prepare a realistic background traffic, Canadian Institute 
 to model the abstract patterns of human interactions and generate the realistic benign background traffic from 25 real users. 
 The 8 files combined has 79 features and 2830743 rows.
 
-\subsection{CSE-CIC-IDS2018}
+\subsubsection{CSE-CIC-IDS2018}
 Among all the datasets used for our research, this one is the biggest in size (10 files of 6.89 GB) with more than 16 million rows and 
 84 feature downloaded through Kaggle. CSE-CIC-IDS2018 was a collaborative initiative between CIC and Communications Security Establishment 
 (CSE) with the objective of creating standard benchmark datasets for intrusion detection systems to properly detect network anomalies. 
@@ -177,13 +199,20 @@ attack scenarios. The initiative used Slowloris and LOIC to inject HTTP DoS atta
 Damn Vulnerability Web App (DVWA) to test the vulnerabilities.
 
 
-\subsection{UNSW-NB15}
+\subsubsection{UNSW-NB15}
 
 CIC-UNSW-NB15 or simply UNSW-NB15 augmented dataset was created with the help of IXIA PerfectStorm with up-to-date normal and abnormal 
 network traffic. The dataset contains 9 types of attacks which the CIC-IDS-2017 and CSE- CIC-IDS2018 datasets lack. CICFlowmeter extracted 
 new features from the network flow. The attacks in UNSW-NB15 are categorized by matching the flow records: source/destination IP, port, and 
 protocols with the records from ground truth file. UNSW-NB15 prioritized matching Timestamp in-case of multiple records, removed flows that 
 could not be categorized and categorized the remaining traffic as benign after malicious flows were processed. 
+\clearpage
+\subsection{Data Pre-Processing}
+The first step in data-processing is standardizing all the labels across the datasets. We mapped the labels of the datasets taking reference to 
+CSE-CIC-IDS2018. We handled the infinite values in these datasets by replacing them with NaN values. Removing duplicates earlier would significantly 
+reduce the size of the datasets, seeing the skewness of the datasets, we replaced the NaN values with the median values from the respective labels. 
+And, only after replacing the NaN values with median values, we removed the duplicated values from the datasets. Finally, for the next step we took 
+all the common labels from the datasets. We also checked and deleted the bad rows from the datasests.
 
 \begin{table}[htbp]
     \centering
@@ -246,13 +275,7 @@ could not be categorized and categorized the remaining traffic as benign after m
     \end{tabularx}
 \end{table}
 
-\section{Data Pre-Processing}
-The first step in data-processing is standardizing all the labels across the datasets. We mapped the labels of the datasets taking reference to 
-CSE-CIC-IDS2018. We handled the infinite values in these datasets by replacing them with NaN values. Removing duplicates earlier would significantly 
-reduce the size of the datasets, seeing the skewness of the datasets, we replaced the NaN values with the median values from the respective labels. 
-And, only after replacing the NaN values with median values, we removed the duplicated values from the datasets. Finally, for the next step we took 
-all the common labels from the datasets. We also checked and deleted the bad rows from the datasests.
-
+\clearpage
 \begin{table}[htbp]
     \centering
     \caption{Attack Class Distribution after Data Pre-Processing}
@@ -313,9 +336,9 @@ all the common labels from the datasets. We also checked and deleted the bad row
         \bottomrule
     \end{tabularx}
 \end{table}
+\clearpage
 
-
-\section{Feature Engineering}
+\subsection{Feature Engineering}
 In order to maximize the intrusion detection, we mapped the attacks of similar nature. Since, the tree based models are robust in handling the class-imbalance, 
 we have simply implemented class-weighting and avoided using SMOTE for Random Forest and XGBoost. Meanwhile, for our DNN architecture, we used RobustScaler to 
 fit-transform the train datasets only. To check the best hyperparameters for the models, we have utilized Optuna study \cite{Akiba2019} to get the best configuration 
@@ -354,8 +377,8 @@ WebAttack     & 2143    & 312      & 0       \\
 \end{table}
 
 
-\section{Model Training}
-\subsection{Random Forest}
+\subsection{Model Training}
+\subsubsection{Random Forest}
 Random Forest is a robust ensemble learning model that creates many decision trees and carries out classification by taking the mode of the 
 predictions of individual trees. During the training phase, only a random subset of features is considered at each node split. The trees in 
 a random forest use a bootstrap-sampled version of the training data to introduce randomness in both the sampling process and feature selection, 
@@ -445,7 +468,7 @@ handle class imbalance. \par
 \end{table}
 \FloatBarrier
 
-\subsection{XGBoost}
+\subsubsection{XGBoost}
 eXtreme Gradient Boosting generally termed as XGBoost is a scalable gradient boosting decision tree which boost weak learners. XGBoost utilizes the technique 
 where each tree is trained to rectify the mistakes of previous trees. It does not build trees based on parallel bagging as Random Forest does. Rather XGBoost 
 allows trees to grow in additive way to optimize the differential loss function using gradient descent. It employs L1 and L2 regularization to control overfitting 
@@ -537,7 +560,7 @@ class-weighing to mitigate the class imbalance between the benign and malicious 
 \end{table}
 \FloatBarrier
 
-\subsection{Deep Neural Network (DNN)}
+\subsubsection{Deep Neural Network (DNN)}
 DNN learn feature interactions without manual feature extraction giving it an extra edge over tree-based ensemble techniques. 
 DNN is dependent on the size/amount of data, thus shows better performance as the degree of changes in inputs rises. DNN uses 
 hidden layers for classification. Each hidden layer utilizes ReLU activation to bring in non-linearity after each hidden layer 
@@ -563,217 +586,416 @@ on CIC-IDS-2017 and secondly using the best hyperparameters to evaluate the perf
     \label{fig:dnn}
 \end{figure}
 
+\section{Cross-Dataset Generalization using Unsupervised Machine Learning Models}
+The following workflow proposes that anomaly-detection performance is influenced by the selected model, evaluation setting, source dataset, 
+target dataset, and direction of transfer. Dataset shift moderates these relationships because differences between source and target traffic 
+alter the distributions of the features used by the detector.
+
+Isolation Forest, One-Class SVM, and the improved autoencoder represent normal traffic differently. Isolation Forest measures how easily 
+observations can be isolated. One-Class SVM estimates a boundary around normal traffic. The improved autoencoder measures reconstruction error. 
+Evaluation setting plays significant role in the performance of models for intrusion detection. Within-dataset evaluation tests a model 
+using held-out observations originating from the same dataset as the training data. Cross-dataset evaluation applies a source-fitted model 
+to independently collected target traffic.
+
+The relationships are controlled through a harmonised features space, source-only preprocessing, consistent data partitions, source-validation 
+calibration, common metric definitions, and the prohibition of target-domain training or threshold calibration.
+
+\begin{figure}[H]
+       \centering
+       \fbox{
+              \begin{minipage}{0.88\textwidth}
+                     \centering
+                     
+                     Source dataset and normal training traffic\\
+                     \(\downarrow\)\\
+                     Nine harmonised network-flow features\\
+                     \(\downarrow\)\\
+                     Source-fitted preprocessing\\
+                     \(\downarrow\)\\
+                     Isolation Forest, One-Class SVM, or Improved
+                     autoencoder\\
+                     \(\downarrow\)\\
+                     Source-validation model selection and threshold
+                     calibration\\
+                     \(\downarrow\)\\
+                     Frozen preprocessing, model, and threshold\\
+                     \(\downarrow\)\\
+                     Within-dataset or cross-dataset testing\\
+                     \(\downarrow\)\\
+                     Accuracy, precision, recall, F1-score, ROC-AUC,
+                     false-positive rate, and performance deterioration 
+               \end{minipage}
+         }
+        \caption{Workflow for Cross-Dataset Generalization for Network Intrusion Detection using Unsupervised Machine Learning Model.}
+        \label{fig:methodology-pipeline for unsupervised machine learning}
+\end{figure}  
+
+ The workflow integrates one-class learning, three alternative representation of normal traffic, and cross-domain distribution shift.
+ 
+ For a source dataset \(D_s\), a detector learns an anomaly-scoring functions \(f_s(x)\). A source -validations procedures selects an operating threshold \(\tau_s\). The fitted preprocessing procedure, anomaly-scoring functions, and threshold are then frozen and applied unchanged to a target dataset \(D_t\).
+
+Cross-dataset robustness is reflected in the extent to which the source-derived anomaly scores continues to distinguish benign traffic from attack traffic in \(D_t\).
+
+Purposive sampling was used to select the three datasets. They were selected because they are established intrusion-detection benchmarks, contain labelled benign and attack traffic, and provide sufficient flow information to construct a common semantic feature space.
+
+The inclusion of CICIDS2017 and CSE-CIC-IDS2018 enabled the study to evaluate transfer between two dataset produced by related institutions. The inclusions of UNSW-NB15 introduced a benchmark created using a different network environment and feature schema.
+
+This combination enabled the investigation to compare transfer between related dataset with transfer involving a more structurally different dataset.
+ \cite {Ring2019,Thakkar2020,Kenyon2020},
+ 
+ \subsection {Stratified Data Partitioning}
+ 
+ Each dataset was divided using stratified random partitioning so that the proportions of benign and attack observations were approximately preserved.
+ 
+ First, 20\% of each dataset was reserved as the final test partitions. The remaining 80\% formed the development partition 
+ 
+ Second, 20\% of the development partition was reserved for validation. Before sample caps were applied, the effective allocation was therefore approximately;
+ 
+\begin{itemize}
+        \item 64\% training pool
+        \item 16\% validation partition
+        \item 20\% final test partition
+\end{itemize}
+ 
+ Only benign observation from the training pool was retained for model fitting. Both benign and attack observation were retained in the source-validation and final test partitions.
+ 
+ The validation partition was used for source -domain model selection and threshold calibration. The partition remained independent of model development and was used only for final evaluation.
+ 
+ \subsection{Bounded Sampling}
+ 
+ Computationally bounded samples were used to maintain feasible and consistent experiments. The following maximum sample sizes were defined:
+ 
+ \begin{itemize}
+        \item normal training data: 100,000 observations
+        \item validation data: 50,000 observations
+        \item final test data: 80,000 observation
+        \item One-Class SVM training data: 8,000 normal observation
+ \end{itemize}
+ 
+ When a validation or test partition exceeded its corresponding cap, stratified sampling was used to retain approximately the same class distribution.
+ 
+ Normal-Training and One-Class SVM samples were selected without replacement using seeded random sampling. These caps were introduced as  computational controls and did not permit observations to be shared across training, validation, and testing partitions.
+ 
+ \subsection{Autoencoder Validation Sample}
+ 
+ Normal observations from the source-validation partition were identified and shuffled using seeded random generator. A held out portion of those normal observation was used to monitor reconstruction loss and apply early stopping.
+ 
+ The complete labelled source-validation partition was used separately to calculate anomaly scores and select the final decision threshold.
+ 
+ \subsection {Random-State Procedure}
+ 
+ A base random state of 42 was used. Deterministic dataset-specific  offsets were applied during partitioning and subsampling so that the same procedure could be reproduced could be reproduced while avoiding identical random sequences for every dataset.
+ 
+ The random state controlled ;
+ 
+ \begin{itemize}
+ \item stratified development and test partitioning
+ \item stratified training and validation partitioning
+ \item normal-training subsampling
+ \item validation and test sample capping
+ \item One-Class SVM training-sample selection
+ \item Isolation forest construction
+ \item auto encoder parameter initialisation.
+ \end{itemize}
+
+\subsection{Model Training}
+\subsubsection{Isolation Forest}
+\label{subsec:isolation-forest}
+
+Isolation Forest is a tree-based anomaly detectors that recursively partitions the features space using randomly selected features and spit values. Rare or structurally unusual observations tend to be isolated using shorter tree paths than observations located in dense regions.
+
+An ensemble of isolation trees converts the average path length into an anomaly score. Shorter average paths indicates a greater degree of anomaly.
+
+The methods is suitable for tubular network-flow data because it is scalable and does not require pairwise distance calculations between all observations. Random subsampling also reduces its computational requirements.
+
+\begin{equation}
+       s(x, n) =
+       2^{-\frac{E[h(x)]}{c(n)}},
+       \label{eq:isolation-score}
+\end{equation}
+
+where  \(E[h(x)]\) is the expected path length of \(x\)  across the isolation trees and \(c(n)\) is the normalizing path length for a sample containing \(n\)  observations.  Values closer to one indicate stronger anomalies.
+
+However, the method's definitions of isolation depends on the distribution learned from the source data. Legitimate target observation may be isolated quickly when their feature values fall outside the ranges observed in the source dataset. 
+Isolation Forest may therefore achieve high recall while generating a large number of false positives under severe distribution shift. Accuracy alone cannot reveal this trade-off. Precision, recall, F1\_Score, and false-positive rate must therefore be interpreted together \cite{Verkerken2022, Yang2022}.
+
+Isolation Forest implementation:
+\begin{itemize}
+       \item 350 isolation trees;
+       \item automatic contamination estimation;
+       \item parallel processing;
+       \item a fixed base random state of 42; and
+       \item three candidate maximum-sample values.
+\end{itemize}
+
+The candidate maximum-sample values were:
+
+\begin{equation}
+       m \in \{512, 2048, 8192\}.
+       \label{eq:if-sample-candidates}
+\end{equation}
+
+When a candidate exceeded the available number of normal-training observations, the complete available sample was used.
+
+Each candidate was fitted using normal source traffic. Its anomaly scores were calculated for the labelled source-validation partition. The candidate producing highest source-validation F1-score was selected.
+
+The decision function was inverted so that larger scores represented stronger anomalies:
+
+\begin{equation}
+       s_i^{IF} =
+       -f_{\mathrm{decision}}(x_i).
+       \label{eq:if-anomaly-score}
+\end{equation}
+
+The selected Isolation Forest model and its source-calibrated threshold were frozen within-dataset and cross-dataset testing.
 
 
-\section{Model Evaluation}
+\subsubsection{One-Class Support Vector Machine }
+\label{subsec:one-class-svm}
+
+One-Class SVM is a boundary-based anomaly detector. It maps normal training observations into a transformed features space using a kernel functions and estimates a boundary containing most of those observations.
+
+The model attempts to separate the transformed normal observations from the origin with the greatest possible margin. A simplified objective functions is expressed as: 
+\begin{equation}
+       \min_{w, \rho, \xi}
+       \left[
+            \frac{1}{2}\Vert w\rVert^2
+            +
+            \frac{1}{\nu n}
+            \sum_{i=1}^{n}\xi_i
+            -
+            \rho
+       \right],
+       \label{eq:ocsvm-objective}
+\end{equation}
+
+subject to:
+
+\begin{equation}
+       w^{T}\phi(x_i) \geq \rho-\xi_i,
+       \qquad
+       \xi_i \geq 0,
+       \label{eq:ocsvm-constraints}
+\end{equation}
+
+
+where \(\phi(x_i)\) maps observation \(x_i\) into the kernel feature space, \(\rho\) determine the decision boundary, \(\xi_i\) represents a slack variable,  and \(\nu\) controls the permitted proportion of training observation outside the estimated boundary.
+
+The radial basis functions kernel allows the model to represent a non-linear normal-traffic boundary. It is expressed as:
+
+\begin{equation}
+       K(x_i, x_j) =
+       \exp\left(
+               -\gamma\lVert x_i-x_j\rVert^2
+        \right),
+        \label{eq:rbf-kernel}
+\end{equation}
+
+where \(\gamma\) controls the influence of individual training observations.
+
+The model's behavior is influenced by feature scaling, \(\gamma\), \(\nu\),  and the size of the training sample. One-Class SVM is therefore sensitive to preprocessing decisions and hyperparameter selection.
+
+A boundary fitted tightly around the source distribution may reject large amount of legitimate target traffic. Conversely, an overly broad boundary may accept malicious observations. Its computational and memory requirements may also increase substantially as the training sample grows \cite{Verkerken2022,Khraisat2019}.
+
+One Class SVM was fitted using a maximum of 8,000 randomly selected normal source observations. Bounding the training sample reduced the computational and memory requirements of kernel model.
+
+A radial basis function kernel was employed. Two candidate configurations were evaluated:
+
+\begin{itemize}
+
+\item \(\nu=0.03\) with \(\gamma=\texttt{scale}\); and
+\item \(\nu=0.08\) with \(\gamma=0.05\).
+\end{itemize}
+
+Each candidate was fitted using the same bounded normal source sample and evaluated using the source-validation partition. The configuration producing the highest validation F1\_Score was selected.
+The decision function was inverted so that the larger values represented stronger anomalies.
+\begin{equation}
+       s_i^{\mathrm{SVM}} = 
+       -f_{\mathrm{decision}}(x_i).
+       \label{eq:svm-anomaly-score}
+\end{equation}
+
+The selected model and source-calibrated threshold were applied unchanged to every target dataset associated with the source domain. 
+
+\subsubsection{Improved Autoencoder}
+\label{subsec:improved-autoencoder}
+
+An autoencoder consists of an encoder and a decoder. The encoder maps an input observations to lower-dimensional latent representation:
+
+\begin{equation}
+       z_i = f_{\theta}(x_i),
+       \label{eq:encoder}
+\end{equation}
+
+where \(x_i\) is the input observation, \(z_i\) is its latent representation, and \(\theta\) represents the encoder parameters.
+
+The decoder attempts to reconstruct the original input:
+
+\begin{equation}
+      \hat{x}_i = g_{\phi}(z_i),
+      \label{eq:decoder}
+\end{equation}
+
+where \(\phi\) represents the decoder parameters.
+When the autoencoder is fitted using normal traffic, it is expected to reconstruct observation resembling the training data more accurately than anomalous observations.
+
+For an observations \(x_i\) and its reconstruction \(\hat{x}_i\), the mean-squared reconstruction error is:
+
+\begin{equation}
+      s_i^{AE} =
+      \frac{1}{d}
+      \sum_{j=1}^{d}
+      \left(x_{ij}-\hat{x}_{ij}\right)^2,
+      \label{eq:ae-score}
+\end{equation}
+
+where \(d\) is the number of input features. A higher reconstruction error indicates a greater departure from the learned representation of normal traffic.
+
+Deep representation learning support the modeling of non-linear relationships that may be difficult for shallow methods to represent. However, additional model capacity does not automatically improve anomaly detection. A highly expressive decoder may reconstruct attack observation accurately, while an overfitted latent representation may encode pattern specific to the source dataset. 
+Regularization architecture selection, validation and early stopping are therefore important \cite{Pang2021,Yang2022}. The improved autoencoder used in the present study employs a deeper regularized architecture and early stopping to reduce overfitting.
+
+These improvement do not eliminate distribution shift. Normal target traffic may still produce large reconstruction error when its patterns differ substantially from the source-domain data. 
+The improved auto encoder was implemented using PyTorch. For input dimension \(d\), the hidden -layer size was defined as:
+
+\begin{equation}
+       h= \max(16,2d),
+       \label{eq:ae-hidden-size}
+\end{equation}
+
+and the bottleneck dimension was defined as :
+
+\begin{equation}
+       b= \max\left(
+                    4,
+                    \left\lfloor\frac{d}{2}\right\rfloor
+       \right).
+       \label{eq:ae-bottleneck-size}
+\end{equation}
+
+because the experiment used nine input features, the resulting architecture was: 
+
+\begin{equation}
+       9 \rightarrow 18 \rightarrow 4
+       \rightarrow 18 \rightarrow 9.
+       \label{eq:ae-architecture}
+\end{equation}
+
+The encoder applied a linear layer, batch normalization, Leaky ReLU activation, five-per-cent dropout, and a second linear layer leading to the bottleneck. The decoder reconstructed the input through a hidden layer and output layer.
+
+The model was optimized using AdamW with:
+
+\begin{itemize}
+       \item learning rate  \(8\times10^{-4}\);
+       \item weight decay \(1\times10^{-5}\);
+       \item training batch size of 1,024;
+       \item maximum of 25 epochs; and
+       \item early-stopping patience of six epochs.
+\end{itemize}
+
+Smooth L1 loss was used for training because it is less sensitive to extreme reconstruction errors than ordinary mean-squared  loss.
+Early stopping monitored reconstruction loss using held out normal source-validation observations. The model parameters producing the lowest validation loss were restored after training.
+
+The final anomaly score was the mean-squared reconstruction error:
+
+\begin{equation}
+       s_i^{AE} =
+       \frac{1}{d}
+       \sum_{j=1}^{d}
+       \left(x_{ij}-\hat{x}_{ij}\right)^2.
+\label{eq:method-ae-score}
+\end{equation}
+
+A higher reconstruction error indicated a greater departure from the normal source-domain representation.
+
+\subsection{Threshold Calibration}
+\label{subsec:method-threshold-calibration}
+
+Each model produced a continuous anomaly score. A threshold was required to convert that score into a binary prediction:
+
+\begin{equation}
+       \hat{y}_i = 
+       \begin{cases}
+             1, & \text{if} s_i \geq \tau_s, \\
+             0, & \text{if} s_i < \tau_s.
+       \end {cases}
+       \label{eq:method-decision-rule}
+\end{equation}
+
+The threshold producing the highest source-validation F1\_Score was selected:
+
+
+\begin{equation}
+       \tau_s = 
+       \arg\max_{\tau}
+       F1\left(
+                y_s^{\mathrm{val}},
+                \mathbb{I}
+                \left[
+                    s_s^{\mathrm{val}}\geq\tau
+                \right]
+        \right).
+        \label{eq:threshold-selection}
+\end{equation}
+
+The selected source threshold was frozen before testing. Target labels were not used to select, modify, or recalibrate it.
+
+F1\_Score measured the quality of binary predictions produces by the source calibrated threshold. ROC--AUC measured the ability of the continuous scores to rank attack observations above benign observations across possible thresholds.
+
+Performance deterioration was calculated by comparing a cross-dataset result with the corresponding source model's within-dataset baseline:
+
+\begin{equation}
+       \mathrm{Deterioration} =
+       \frac{
+            M_{\mathrm{within}}-M_{\mathrm{cross}}
+        }{
+            M_{\mathrm{within}}
+        }
+        \times100, 
+        \label{eq:method-deterioration}
+\end{equation}
+
+where \(M\) represents F1\_Score or ROC--AUC. A positive value indicated performance deterioration during cross-dataset transfer, whereas a negative value indicated that cross-dataset performance exceeded the corresponding within-dataset baseline.
+
+\subsection{Model Evaluation}
 Since, the main objective of the study is to find out which model shows robust performance in cross-dataset generalization for network intrusion detection,
 we have prioritized F1-Score, MCC and ROC-AUC Curve as the evaluation metrics. Accuracy alone cannot define whether the model performed better in detecting 
 'Attack' from the  network traffic. 
-
 \begin{itemize}
     \item {Precision:} It gives the measure of the proportion that are predicted as Positive. It is the ratio of True Positives (TP) to the summation of 
     True Positives and False Positives (FP).  
 \end{itemize}
-
 \[
 \text{Precision} = \frac{TP}{TP+FP}
 \]
-
 \begin{itemize}
     \item Recall: Unlike Precision, it gives the measure of positives that are correctly predicted as Positive. It demonstrates the model's proficiency in detecting
     True Positives while limiting False Negatives (FN). It is the ratio of True Positives (TP) to the summation of True Positives and False Negatives (FN).
 \end{itemize}
-
 \[
 \text{Recall} = \frac{TP}{TP+FN}
 \]
-
 \begin{itemize}
     \item {F1\_Score:} It is the harmonic mean of Precision and Recall giving a balanced measure that shows the overall performance of the model minimizing both 
     False Positives and False Negatives.
 \end{itemize}
-
 \[
 \text{F1\_Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}
 {\text{Precision} + \text{Recall}}
 \]
-
 \begin{itemize}
     \item {MCC:} Matthews Correlation Coefficient or simply MCC is a metric used to evaluate the classification performance of the model by determining the correlation between
     actual and predicted classes, preferrable metric for evaluating model performance on imbalanced datasets. Its value ranges from -1 to 1; 1 indicates strong prediction, 0 
     indicates random prediction and -1 represents weak prediction between actual and predicted classes.
 \end{itemize}
-
 \[
 \text{MCC} = \frac{TP \times TN - FP \times FN}
 {\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}
 \]
-
 \begin{itemize}
     \item {ROC-AUC:} Receiver Operating Characteristic Area Under Curve (ROC-AUC) gives the measure specifying how well the model performed in distinguishing the positive 
     and negative classes into correct labels with respect to various classification thresholds. The value ranges from 0 to 1; higher the value better the classification of 
     the classes. 
 \end{itemize}
-
 \[
 \text{ROC-AUC} = \int_{0}^{1} \mathrm{TPR}(\mathrm{FPR}) \, d(\mathrm{FPR})
 \]
-
-\begin{table}[htbp]
-    \centering
-    \caption{Model Performance Metrics without Optuna Study}
-    \label{tab:model_performance}
-    \scriptsize
-    \setlength{\tabcolsep}{3pt}
-
-    \begin{tabular}{llccccccc}
-        \toprule
-        \textbf{Model} & \textbf{Test Dataset} &
-        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
-        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
-        \midrule
-
-        \multirow[c]{2}{*}{Random Forest}
-        & CSE-CIC-IDS2018 & 0.9188 & 0.9239 & 0.2043 & 0.3346 & 0.6457 & 0.8384 & 0.4130 \\
-        & UNSW-NB15       & 0.9743 & 0.2830 & 0.0002 & 0.0003 & 0.4936 & 0.7613 & 0.0063 \\
-
-        \midrule
-
-        \multirow[c]{2}{*}{XGBoost}
-        & CSE-CIC-IDS2018 & 0.9309 & 0.9799 & 0.3150 & 0.4768 & 0.7199 & 0.9153 & 0.5346 \\
-        & UNSW-NB15       & 0.9752 & 0.6533 & 0.0739 & 0.1328 & 0.5601 & 0.7829 & 0.2142 \\
-
-        \midrule
-
-        \multirow[c]{2}{*}{Deep Neural Network}
-        & CSE-CIC-IDS2018 & 0.8932 & 0.1393 & 0.0133 & 0.0244 & 0.4839 & 0.5346 & 0.0129 \\
-        & UNSW-NB15       & 0.8820 & 0.0492 & 0.1958 & 0.0787 & 0.5078 & 0.8107 & 0.0501 \\
-
-        \bottomrule
-    \end{tabular}
-\end{table}
-All the models generated accuracy greater than 88\%. Random Forest and XGBoost yielded Precision score above 90\% for the 
-CSE-CIC-IDS2018 dataset. XGBoost turned out to be the best performing model while evaluated on the same dataset with Recall Score of 0.31, F1-Score of 0.47, 
-MCC of 0.53 compared to Recall Score of 0.20, F1-Score of 0.33 and MCC of 0.41 generated by Random Forest. These scores achieved are better than the scores 
-achieved from previous studies \ref{tab:evaluation-results}. The performance of these models dropped significantly when evaluated on UNSW-NB15 dataset. 
-The only signicant metric being MCC which is 0.21 for XGBoost. The primary reason for the performance drop could be due to variation in the types of 'Attack' 
-in the dataset \ref{tab:class_distribution}. The 'Attack' labels that are present in the train dataset CIC-IDS-2017 are not present in the test dataset UNSW-NB15 
-and vice-versa. The study of \cite{Chandra2025} have highlighted the models' robustness in cross-dataset generalization for network intrusion detection while testing 
-on this particular dataset. Also, the methodology used are in contrast to what we have adopted. 
-
-The biggest disappointment above all is the result from DNN architecture. The model yielded accuracy above 88\% for both datasets, however the results for our 
-preferred metrics are negligible/avoidable. As, DNN relies on the depth of the layers to learn complex features and their patterns, huge class-imbalance and the depth
-of layers used could have been the reason for the poor performance. We have only used 4 hidden layers to detect attacks from the network traffic. Further more, we 
-conducted Optuna study twice to tune the hyperparameters and used them to check whether the results improve, there was no significant change in the results of 
-Random Forest and XGBoost, however we saw improvement in the performance of DNN. But tuning the hyperparameters showed inconsistent influence over the test datasets 
-CSE-CIC-IDS2018 and UNSW-NB15.  
-
-The following are the hyperparameters we used for our Optuna Studies.
-
-\begin{table}[!ht]
-    \centering
-    \caption{Hyperparameters for DNN Optuna Studies}  
-    \label{tab:Hyperparameters-details DNN Optuna1}
-    {\fontsize{9}{11}\selectfont
-    \renewcommand{\arraystretch}{1.25}
-    \begin{tabularx}{\textwidth}{
-        >{\raggedright\arraybackslash}p{3.5cm}
-        >{\centering\arraybackslash}p{2.0cm}
-        >{\raggedright\arraybackslash}X
-    }
-
-        \toprule
-
-        \textbf{Hyperparameter} &
-        \textbf{Search Space} &
-        \textbf{Purpose} \\
-
-        \midrule
-
-        n\_layers &
-        2, 6 &
-        Controls network depth, learns complex features and balances overfitting\\
-
-        units per layer&
-        [512, 256, 128, 64] &
-        Controls width of hidden layer and checks the respresentational capacity at each layer \\
-
-        learning\_rate &
-        [1e-4, 1e-2] &
-        Controls the step size during gradient descent \\
-
-        dropout\_rate &
-        0.1, 0.5 &
-        Deactivate the neurons during training to prevent overfitting and overall regularizes the network \\
-        
-        batch\_size &
-        [512, 1024, 2048, 4096] &
-        Prevents memory crashes, training speed and gradient noise by controlling the number of samples processed \\
-
-        \bottomrule
-    \end{tabularx}
-    }
-\end{table}
-\FloatBarrier
-
-\begin{table}[htbp]
-    \centering
-    \caption{DNN Performance Metrics with Optuna Study -1}
-    \label{tab:model_performance}
-    \scriptsize
-    \setlength{\tabcolsep}{3pt}
-
-    \begin{tabular}{llccccccc}
-        \toprule
-        \textbf{Model} & \textbf{Test Dataset} &
-        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
-        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
-        \midrule
-
-        \multirow[c]{2}{*}{Deep Neural Network}
-        & CSE-CIC-IDS2018 & 0.9001 & 0.4135 & 0.0005 & 0.0010 & 0.4742 & 0.5954 & 0.0114 \\
-        & UNSW-NB15       & 0.9759 & 0.8357 & 0.0794 & 0.1449 & 0.5664 & 0.8096 & 0.2532 \\
-
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-The best hyperprameters after Optuna Study 1 are:
-\[
-\{n\_{\mathrm{layers}},\, \mathrm{units},\, \mathrm{dropout\_rate},\, 
-\mathrm{learning\ rate},\, \mathrm{batch\_size}\}
-=
-\{4,\,512,\,0.179447,\,0.001116,\,512\}.
-\]
-
-\begin{table}[htbp]
-    \centering
-    \caption{Model Performance Metrics with Optuna Study -2}
-    \label{tab:model_performance}
-    \scriptsize
-    \setlength{\tabcolsep}{3pt}
-
-    \begin{tabular}{llccccccc}
-        \toprule
-        \textbf{Model} & \textbf{Test Dataset} &
-        \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} &
-        \textbf{F1} & \textbf{Macro F1} & \textbf{ROC-AUC} & \textbf{MCC} \\
-        \midrule
-
-        \multirow[c]{2}{*}{Deep Neural Network}
-        & CSE-CIC-IDS2018 & 0.9058 & 0.9824 & 0.0584 & 0.1102 & 0.5302 & 0.5470 & 0.2274 \\
-        & UNSW-NB15       & 0.9360 & 0.0025 & 0.0038 & 0.0030 & 0.4850 & 0.7923 & -0.0293 \\
-
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-The best hyperprameters after Optuna Study 2 are: 
-\[
-\{n\_{\mathrm{layers}},\, \mathrm{units},\, \mathrm{dropout\_rate},\,
-\mathrm{learning\_rate},\, \mathrm{batch\_size}\}
-=
-\{4,\,512,\,0.111666,\,0.000527,\,512\}.
-\]
-
-

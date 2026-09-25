@@ -3,6 +3,8 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{url}
 \usepackage{float}
 \usepackage{enumitem}
@@ -27,6 +29,10 @@
 \usepackage{titlesec}
 \usepackage{placeins}
 \usepackage{wrapfig}
+
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 % Reduce space before chapter title
 \titleformat{\chapter}[display]
@@ -96,7 +102,7 @@
 		{\large\bf\supervisor\par}
 		\vspace{1cm}
 		{\large\submissiontime\par}
-		\thispagestyle{empty} 
+		\thispagestylgit e{empty} 
 		\newpage
 	}
 }
@@ -112,7 +118,9 @@
 \include{chapters/declaration}
 \include{chapters/acknowledgments}
 \include{chapters/dedication}
+\clearpage
 \tableofcontents 
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -120,7 +128,6 @@
 \clearpage
 \pagenumbering{arabic}
 \include{chapters/introduction}
-\include{chapters/foundations}
 \include{chapters/literature review}
 \include{chapters/methodology}
 \include{chapters/evaluation}

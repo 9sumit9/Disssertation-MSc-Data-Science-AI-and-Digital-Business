@@ -8,13 +8,20 @@ when models are deployed for intrusion detection considering the increasing numb
 the models with greater accuracy on benchmark dataset fail to detect intrusion in an unknown dataset yielding more False Positives.  Generalization becomes 
 complex as the features from the train dataset that are predictive of malicious activities within the dataset may fail to predict malicious behavior from a 
 different dataset thus dropping the performance of the models \cite{Elangovan2026}. Uniformity in dataset size for training and testing, usage of SMOTE 
-are crucial to make comparisons on how the models performed in intrusion detection in the future. 
+are crucial to make comparisons on how the models performed in intrusion detection in the future although they vary on design, features and intended research
+goals. Recording environments, data volume, realism, evaluation design, anonymization and attack distribution have their limitations, thus prioritizing the selection
+of datasets based on research goal rather than just popularity \cite{Ring2019,Thakkar2020,Kenyon2020}. Moreover, popular datasets only include a part of the current 
+threat environment which seem to be biased in detection performance \cite{Hindy2020}. A reliable NIDS evaluation depends on the experimental pipeline, including preprocessing, 
+feature generation, detection methodologies and evaluation metrics rather than just the model selection \cite{Yang2022}. The common issue with data quality and applicability 
+is the usage of CICIDS2017 as the benchmark dataset \cite{Goldschmidt2025}. Similar features indicate distinct underlying properties across datasets due to variations in traffic 
+capture, dataset production and feature construction \cite{Pinto2025}. 
+
+\section{Supervised Machine Learning}
 
 The studies have shown the effectiveness of ensemble learning and feature selection in finding nonlinear dependencies among different labels in the 
 network flow by keeping low dimensionality. They have also cautioned to interpret the evaluation wisely despite Random Forest, XGBoost, 1D-CNN achieving 
 accuracy \>85\% on benchmark datasets \cite{Elangovan2026}, these models faced challenges modelling on complex multi-stage attacks \cite{Chandra2025}. 
 
-\section{Cross-Dataset Generalization using Supervised Learning Models}
 With the ever-increasing study and experiments on network intrusion detection, a recent study by \cite{Cantone2024}, although not validated and reviewed
  by experts performed cross-dataset generalization by employing machine learning algorithms on CIC-IDS-2017, CSE-CIC-IDS2018, LycoS-IDS2017, 
  and LycoS-UnicasIDS2018 datasets and eventually applied corrections to CSE-CIC-IDS2018 based on the results of LycoS-IDS2017. The study revealed that the
@@ -60,7 +67,6 @@ from 0.942 to 0.872. It seems obvious that the performance degrades while genera
 network domain distance increases implying that performance on benchmark dataset does not signify robustness for future attack detection. The 
 study highlights the importance of carrying out temporal forecasting evaluation while implementing models for intrusion detection.  
 
-
 \section{Hybrid Deep Learning approach for Cross-Dataset Generalization}
 In addition to the application of supervised learning models, usage of deep learning methods has been observed for the detection of intrusion due to 
 its capability of learning hierarchical representations from the complex traffic data. A research paper “Real-Time Network Intrusion Detection System 
@@ -91,6 +97,61 @@ The findings from the research for cross-dataset generalization by \cite{Chandra
 These papers show how the evaluation design, datasets, pre-processing, feature engineering and model design affect generalization. Thus, cross-dataset generalization for 
 NIDS remains continuous deep research of the specific source and target datasets, features compatibility, attack overlap and experimental approach.
 
+
+\section{Unsupervised Machine Learning}
+\label{subsec:literature-unsuperivsed-detection}
+
+Unsupervised anomaly detection is attractive because it reduces dependence on comprehensive attack labels. It attempts to learn regularities in 
+normal traffic and identify observations that depart from those regularities \cite{Pang2021,Chou2022}.
+
+Isolations Forest is suitable for large tabular datasets because it use random partitioning rather than estimating a complete probability 
+distribution. However, its definition of isolation remains connected to the source distribution. Normal target observations outside the source 
+features ranges may therefore receive high anomaly scores.
+
+One-Class SVM constructs a flexible non-linear boundary around normal observations. However, its performance is sensitive to feature scaling, 
+kernel parameters, and training sample size. This sensitivity becomes particularly important when features distribution change between datasets.
+
+Autoencoders learn non-linear representation of normal traffic and use reconstructions error as an anomaly score. Their additional capacity 
+support the modelling of complex relationships among anomalous observation accurately and reduce the separation between benign and attack 
+traffic.
+
+Regularisation, early stopping, architecture selection, and careful threshold calibration are therefore required \cite{Pang2021,Yang2022}. 
+These design choice may reduce overfitting, but they do not guarantee cross-dataset generalisation.
+
+No model is theoretically guraranteed to generalise best across all dataset and transfer directions. Their relative performance must therefore 
+be determined using an identical experimental protocol.   
+
+
+\cite{Alhajjar2021} demonstrated that machine-learning-based network intrusion detectors are vulnerable to adversarial examples. This finding 
+shows why high benchmarks performance should not automatically be interpreted as evidence of operational security.
+
+The threat and dataset analysis presented by \cite{Hindy2020} similarly demonstrated that limited threat coverage restricts the conclusion drawn 
+from benchmark. A model cannot demonstrate reliable detection of attacks that are absent or inadequately represented in the evaluation data.   
+
+The present dissertation does not conduct an adversarial-evasion experiment. However, strict cross-dataset evaluation provided a relevant test 
+of robustness by exposing each detector to independent network distributions that were not used during model development. The study closely 
+related to the present methodology is \cite{Verkerken2022}. The authors compared an autoencoder, Isolation Forest, One-Class SVM using 
+CICIDS2017 and CSE-CIC-IDS2018. Their results demonstrated that strong individual-datasets performance did not imply successful inter-dataset 
+transfer. Average ROC--AUC decreased by approximately 30.45\% when models were evaluated using traffic from a different dataset.
+
+The principal cross-dataset setting used by \cite{Verkerken2022}  involved two related CIC datasets. The present dissertation extends this 
+scope by including UNSW-NB15, which was generated using a different network environment
+and feature schema. \cite{Cantone2024} provided further evidence that within-dataset success may conceal weak external performance. Although their models and complete dataset selections do not match those used in this dissertation, their findings reinforce the need to evaluate multiple directional transfer paths and examine dataset heterogeneity.
+
+Published studies frequently use different features, data partitions, class proportions , threshold-selection procedures, and metric definitions. 
+Their reported values therefore contextual benchmark rather than directly equivalent observations claims that one study outperformed another 
+should only be made when the experimental conditions are sufficiently comparable. 
+
+The present research evaluates three within-datasets paths and six cross-dataset directional among CICIDS2017, CSE-CIC-IDS2018 and UNSW-NB15 
+datasets. This design supports comparison between transfer involving the two CIC datasets and transfer involving the more structural distinct 
+UNSW-NB15 datasets 
+ 
+ Federated learning provided a mechanism for a collaborative model development without centralizing raw network records. \cite{Goarceyraud2025} 
+ Proposed and supervise federated intrusion detection architecture using clustering and federation initialization. Their research connect unsupervised learning, privacy prevention and multi-source data.
+ \cite{Bertolis2024} Propose supervise federated learning approach for intrusion detection across heterogenous networks. Their study further demonstrate the relevance of multi-source learning to the generalization problem.
+ 
+ However, these studies does not provide directly comparable baseline for three models and six cross data parts evaluated in this thesis. They are therefore used to motivate further research rather than to claim that the present models outperformed federated architectures. 
+ 
 \section{Research Gap}
 All these previous studies of Cross-Dataset generalization for NIDS using Supervised Machine Learning and Deep Learning Models demonstrate gradual 
 progress for NIDS, although the evaluations were made using different metrics on different test datasets. Trees based models seem to provide faster classification 
@@ -103,6 +164,25 @@ for deployment. They fail to exhibit excellent generalization capabilities. Ther
  generalization to different datasets, robustness over time, feature stability, imbalance class, false-positive estimations, and computational efficiency. 
  Future research should conduct collaborative experiments for real deployment simulations with independent datasets and heterogeneous network conditions.
 
+ The literature review also establishes four principal findings. First, unsupervised anomaly detection reduces dependency on the complete attacks labels. this property makes it relevant to a margin attacks for which reliable labels are available.
+ Secondly isolation forest one class as vm and auto encoder use materially different representation of normal traffic. the assumptions may cause them to respond differently to network traffic distribution shift.
+ Third, data construction, future engineering, preprocessing, threshold selection and metrics definition substantially influence reported performance. High results cannot be attributed to the model without considering the complete evaluation pipeline.
+ Fourth, strong within data result do not demonstrate external generalization. model may exploit characteristic specific to one dataset and fail when applied to independently collected traffic. Despite this evidence, a research gap remain in  consistent , fully directional evaluation of the three selected model across the C17C18NB15. The present desertion address this gap through.
+ 
+ \begin {itemize}
+ 	    \item a common nine-feature representation
+	    \item source only data cleaning and pre processing
+	    \item normal only source domain model fitting
+	    \item explicit source validation model selection
+	    \item source validation threshold validation
+	    \item three within data baselines
+	    \item six directional cross data paths
+	    \item no data domain restraining or threshold recalibration
+	    \item consistent performance measures
+\end{itemize}
+
+This design provides a consistent basis for measuring and comparing the cross data robustness of Isolation Forest One Class SVM and  improved autoencoder.
+
  \section{Research Questions}
 To serve as a guide for this research overcoming the research gaps discussed earlier, we have developed the 'Qualitative' research questions that specifically
 contribute towards the efficiency of both supervised and unsupervised machine learning models for network intrusion detection on different
@@ -111,10 +191,11 @@ datasets.
 The following are the qualitative research questions developed for the research:
 
 \begin{enumerate}
-    \item How well do supervised machine learning models trained on CIC-IDS-2017 dataset generalize to unseen intrusion detection datasets?
+    \item How well do supervised and unsupervised machine learning models trained on CIC-IDS-2017 dataset generalize to unseen intrusion detection datasets?
     \item How does the cross-dataset generalization performance of unsupervised models compare with supervised models?
     \item Which machine learning model demonstrate greater robustness against dataset distribution shift in real-world network intrusion detection scenarios?
 \end{enumerate}
+
 
  \section{Research Hypotheses}
  Cross-dataset generalization for network intrusion detcetion is crucial in determining the robustness of the models in identifying intusion from a varied 
@@ -124,14 +205,68 @@ The following are the qualitative research questions developed for the research:
  supervised and unsupervised learning models for developing a robust network intrusion detection system.
 
  \begin{itemize}
-    \item \textbf{H1:} While trained on a single dataset and tested on other unseen datasets, cross-dataset generalization may not be significant despite higher accuracy achieved by the models.
-    \item \textbf{H2:} Despite the models generating higher Precision score, there will be a reduced or unsignificant Recall score during generalization. 
-    \item \textbf{H3:} Supervised machine learning models will yield significantly better results than Unsupervised machine learning models.
-    \item \textbf{H4:} Tuning hyperparameters alone will not be enough for DNN to be robust in identifying intrusions. Number of trials should be increased too to learn the patterns. 
-    \item \textbf{H5:} The presence of completely different attack types in UNSW-NB15 dataset, models trained on CIC-IDS-2017 and tested on UNSW-NB15 will see performance decline
-    compared to models tested on CSE-CIC-IDS2018.
+    \item \textbf{H1:} The evaluation metrics Precision, Recall, F1\_Score and ROC-AUC for intrusion detection depends significantly on the types of model used.
+    \item \textbf{H2:} The evaluation metrics of the models for intrusion detection depends significantly on the assessment setting used for evaluation.
+    \item \textbf{H3:} Attack type signifies the performance of the models in terms of evaluation metrics. 
+    \item \textbf{H4:} Cross-generalization for network intrusion detection effectivenss relies on the interaction between both the selection of models and evaluation settings.
+    \item \textbf{H5:} Robustness is not determined solely by the highest score on one transfer path.
+    \item \textbf{H6:} Evaluation setting and attack type has significance in generalization for intrusion detection.
+    \item \textbf{H7:} Dataset features have intermediatory role between the individual variables and dependent variables for the effectiveness of intrusion detection.
+    \item \textbf{H8:} Feature selection/types mediates the link between the model and the performance of intrusion detection.
  \end{itemize}
+\clearpage
 
+\section{Conceptual Framework}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[
+        width=\textwidth,
+        height=10cm,
+        keepaspectratio
+    ]{attachments/conceptual framework.png}
+    \caption{Conceptual Framework}
+    \label{fig:Conceptual Framework}
+\end{figure}
+
+\section{Variables from Conceptual Framework}
+\subsubsection{Independent Variables}
+\begin{description}
+    \item[Model Type:] Supervised and Unsupervised Machine Learning Models for network intrusion detection.
+    \textit{Role:} Investigates the variations in performance based on model architecture.
+    \item[Evaluation Setting:] Evaluation environment (Within dataset and Cross-dataset).
+    \textit{Role:} Ascertains whether the environment has an impact cross dataset generalization capability of the model.
+    \item[Attack Type:] Specific types of attack contained in the dataset.
+    \textit{Role:} Investigates whether a specific type of attack favors detection performance.
+\end{description}
+
+\subsubsection{Dependent Variables}
+\begin{description}
+    \item[Precision:] The proportion of True Positives for attack detection.
+    \textit{Role:} Evaluates the degree of False Positives and the precision of positive attack predictions.
+    \item[Recall:] The proportion of actual attacks correctly detected by the model.
+    \textit{Role:} Evaluates the model's robustness to minimize missed attacks and identify attack instances. 
+    \item[F1\_Score:] The harmonic mean of Precision and Recall.
+    \textit{Role:} Provides a fair assessment of model performance by taking Precision and Recall into account.
+    \item[ROC-AUC:] Receiver Operating Characteristic - Area Under the Curve.
+    \textit{Role:} Evaluates how well a model can distinguish between various classes across categorization thresholds.
+\end{description}
+
+\subsubsection{Moderating Variables}
+\begin{description}
+    \item[Dataset Characteristics:] Characteristics of a dataset that includes data distribution, feature composition, class distribution,  and attack representation.
+    \textit{Role:} Determines whether relationship between the independent variables and detection performance is affected by dataset differences.
+    \item[Data Preprocessing:] Data transformation - Cleaning, addressing missing values, feature encoding, scaling and other transformation techniques before training the models.
+    \textit{Role:} Moderates the relationship between individual variables and the performance output through modification and distribution of the data to the models. 
+    \item[Hyperparameter Setting:] Tuning of hyperparameters for all the models.
+    \textit{Role:} Influences the learning process for the effectiveness of the model.
+    \end{description}
+
+\subsubsection{Mediating Variables}
+\begin{description}
+    \item[Feature Representation:] Network traffic features supplied as inputs to the models are represented, transformed and arranged.
+    \textit{Role:} Explains how the link between model type and detection performance may be influenced by input feature qualities.
+    \end{description}
 
  \section{Research Objectives}
 The ultimate goal of this research is to examine the performances of supervised and unsupervised machine learning models, evaluate their capabilities in 
@@ -140,8 +275,13 @@ performance in CSE-CIC-IDS2018 and UNSW-NB15 datasets to identify different type
 
 \begin{enumerate}
     \item Process and standardize the CIC-IDS-2017, CSE-CIC-IDS2018 and UNSW-NB15 datasets.
+    \item To create a consistent feature-alignment procedure for CICIDS2017, CSE-CIC-IDS2018 and UNSW-NB15.
+    \item To develop a source-fitted preprocessing pipeline that prevent target-domain information leakage. 
     \item Train supervised and unsupervised machine learning models.
+    \item To use a held-out source validation partition for hyperparameter selection and anomaly-threshold calibration.
     \item Evaluate the model performance on CSE-CIC-IDS2018 and UNSW-NB15 test datasets.
     \item Make comparison of the evaluation metrics: F1\_Score, MCC, ROC-AUC, Precision, and Recall.
-    \item Identify and select the best model that is more robust to dataset shift and generalizes better for intrusion detection in real-world cybersecurity environments.
+    \item To determine which model demonstrate the greatest robustness under dataset-distribution shift for intrusion detection in real-world cybersecurity environments.
+    \item To recommend improvement for reliable unsupervised cross-dataset intrusion detection.
+    \item Identify and select the best model that is more robust to dataset shift and generalizes better 
 \end{enumerate}
